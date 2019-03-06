@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.ddex.io/v3/markets/BAT-WETH/ticker")
+price=$(jshon <<<"$json" -e data -e ticker -e price -u)
+eth=$(setzer price eth)
+bc -l <<<"$price * $eth"

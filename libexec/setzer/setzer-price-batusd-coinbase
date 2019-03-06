@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.gdax.com/products/BAT-USDC/ticker")
+price=$(jshon <<<"$json" -e price -u)
+#TODO
+#technically this price is in USDC
+#there is currently no liquid USDC/USD order book
+#just the Coinbase guarantee to redeem USDC 1:1 with USD
+echo "$price"
