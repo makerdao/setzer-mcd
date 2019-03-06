@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://www.okex.com/api/v1/ticker.do?symbol=dgd_btc")
+price=$(jshon <<<"$json" -e ticker -e last -u)
+btc=$(setzer price btc)
+bc <<<"$price * $btc"
