@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://fx-api.gateio.ws/api/v4/futures/tickers?contract=BNB_USD")
+price=$(jshon <<<"$json" -e 0 -e last -u)
+json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
+usdt=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
+bc <<<"$price * $usdt"
