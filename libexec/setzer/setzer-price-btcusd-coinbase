@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
 json=$(curl -sS "https://api.gdax.com/products/BTC-USD/ticker")
-price=$(jshon <<<"$json" -e price -u)
-echo "$price"
+btc_usd=$(jshon <<<"$json" -e price -u)
+btc_usd=$(printf "%.10f" "$btc_usd")
+echo "$btc_usd"

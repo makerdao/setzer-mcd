@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
 json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=ETHUSD")
-price=$(jshon <<<"$json" -e result -e XETHZUSD -e c -e 0 -u)
-echo "$price"
+eth_usd=$(jshon <<<"$json" -e result -e XETHZUSD -e c -e 0 -u)
+eth_usd=$(printf "%.10f" "$eth_usd")
+echo "$eth_usd"

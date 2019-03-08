@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 json=$(curl -sS "https://api.ddex.io/v3/markets/BAT-WETH/ticker")
-price=$(jshon <<<"$json" -e data -e ticker -e price -u)
-eth=$(setzer price eth)
-bc -l <<<"$price * $eth"
+bat_eth=$(jshon <<<"$json" -e data -e ticker -e price -u)
+bat_eth=$(printf "%.10f" "$bat_eth")
+eth_usd=$(setzer price eth)
+bc -l <<<"$bat_eth * $eth_usd" | awk '{printf "%.10f", $0}'

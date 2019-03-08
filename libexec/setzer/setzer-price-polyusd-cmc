@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
 json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/2496/")
-price=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
-echo "$price" | awk '{printf "%f", $0}'
+poly_usd=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
+poly_usd=$(printf "%.10f" "$poly_usd")
+echo "$poly_usd"

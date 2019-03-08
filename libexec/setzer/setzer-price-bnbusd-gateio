@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
 json=$(curl -sS "https://fx-api.gateio.ws/api/v4/futures/tickers?contract=BNB_USD")
-price=$(jshon <<<"$json" -e 0 -e last -u)
+bnb_usdt=$(jshon <<<"$json" -e 0 -e last -u)
+bnb_usdt=$(printf "%.10f" "$bnb_usdt")
 json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
-usdt=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
-bc <<<"$price * $usdt"
+usdt_usd=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
+usdt_usd=$(printf "%.10f" "$usdt_usd")
+bc -l <<<"$bnb_usdt * $usdt_usd" | awk '{printf "%.10f", $0}'
