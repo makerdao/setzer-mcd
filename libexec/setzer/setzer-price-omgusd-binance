@@ -3,5 +3,5 @@ set -e
 json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=OMGBTC")
 omg_btc=$(jshon <<<"$json" -e price -u)
 omg_btc=$(printf "%.10f" "$omg_btc")
-btc_usd=$(setzer price eth)
+btc_usd=$(setzer price btc)
 bc -l <<<"$omg_btc * $btc_usd" | awk '{printf "%.10f", $0}'
