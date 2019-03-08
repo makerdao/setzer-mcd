@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=BTC-MANA")
+mana_btc=$(jshon <<<"$json" -e 0 -e trade_price -u)
+mana_btc=$(printf "%.10f" "$mana_btc")
+btc_usd=$(setzer price btc)
+bc -l <<<"$mana_btc * $btc_usd" | awk '{printf "%.10f", $0}'
