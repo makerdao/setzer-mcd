@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.hitbtc.com/api/1/public/zrxbtc/ticker")
+zrx_btc=$(jshon <<<"$json" -e last -u)
+zrx_btc=$(printf "%.10f" "$zrx_btc")
+btc_usd=$(setzer price btc)
+bc -l <<<"$zrx_btc * $btc_usd" | awk '{printf "%.10f", $0}'

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.gdax.com/products/BAT-USDC/ticker")
+bat_usdc=$(jshon <<<"$json" -e price -u)
+bat_usdc=$(printf "%.10f" "$bat_usdc")
+usdc_usd=$(setzer price usdc)
+bc -l <<<"$bat_usdc * $usdc_usd" | awk '{printf "%.10f", $0}'

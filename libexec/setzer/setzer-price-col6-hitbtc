@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.hitbtc.com/api/1/public/gntbtc/ticker")
+gnt_btc=$(jshon <<<"$json" -e last -u)
+gnt_btc=$(printf "%.10f" "$gnt_btc")
+btc_usd=$(setzer price btc)
+bc -l <<<"$gnt_btc * $btc_usd" | awk '{printf "%.10f", $0}'

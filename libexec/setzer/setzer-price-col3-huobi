@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=omgusdt")
+omg_usdt=$(jshon <<<"$json" -e tick -e bid -e 0)
+omg_usdt=$(printf "%.10f" "$omg_usdt")
+json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
+usdt_usd=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
+usdt_usd=$(printf "%.10f" "$usdt_usd")
+bc -l <<<"$omg_usdt * $usdt_usd" | awk '{printf "%.10f", $0}'
