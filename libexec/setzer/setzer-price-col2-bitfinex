@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.bitfinex.com/v2/ticker/tZRXUSD")
+json=$(curl -sS "https://api.bitfinex.com/v2/ticker/tBABUSD")
 zrx_usdt=$(jshon <<<"$json" -e 6)
 zrx_usdt=$(printf "%.10f" "$zrx_usdt")
 json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
