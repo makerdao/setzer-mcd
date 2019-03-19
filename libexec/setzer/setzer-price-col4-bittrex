@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=BTC-BAT")
+json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=BTC-LTC")
 bat_btc=$(jshon <<<"$json" -e result -e Last -u)
 bat_btc=$(printf "%.10f" "$bat_btc")
 btc_usd=$(setzer price btc)

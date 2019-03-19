@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=KRW-BAT")
+json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=KRW-LTC")
 bat_krw=$(jshon <<<"$json" -e 0 -e trade_price)
 bat_krw=$(printf "%.10f" "$bat_krw")
 json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=USD")

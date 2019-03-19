@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.gdax.com/products/BAT-USDC/ticker")
+json=$(curl -sS "https://api.gdax.com/products/LTC-USD/ticker")
 bat_usdc=$(jshon <<<"$json" -e price -u)
 bat_usdc=$(printf "%.10f" "$bat_usdc")
 usdc_usd=$(setzer price usdc)
