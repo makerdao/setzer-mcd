@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=REPBTC")
+json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=XLMBTC")
 rep_btc=$(jshon <<<"$json" -e price -u)
 rep_btc=$(printf "%.10f" "$rep_btc")
 btc_usd=$(setzer price btc)
