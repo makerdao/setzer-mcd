@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=dgdbtc")
+json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=adabtc")
 dgd_btc=$(jshon <<<"$json" -e tick -e bid -e 0)
 dgd_btc=$(printf "%.10f" "$dgd_btc")
 btc_usd=$(setzer price btc)
