@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=omgusdt")
+json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=trxusdt")
 omg_usdt=$(jshon <<<"$json" -e tick -e bid -e 0)
 omg_usdt=$(printf "%.10f" "$omg_usdt")
 json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
