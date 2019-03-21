@@ -2,7 +2,7 @@
 set -e
 export LC_NUMERIC=C
 
-mapfile -t sources < <(setzer sources omgusd)
+mapfile -t sources < <(setzer sources col3)
 
 addprice () {
   price=$(timeout 5 setzer price omgusd-"$1" 2> /dev/null || true)

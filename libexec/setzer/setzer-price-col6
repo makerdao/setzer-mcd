@@ -2,7 +2,7 @@
 set -e
 export LC_NUMERIC=C
 
-mapfile -t sources < <(setzer sources gntusd)
+mapfile -t sources < <(setzer sources col6)
 
 addprice () {
   price=$(timeout 5 setzer price gntusd-"$1" 2> /dev/null || true)
