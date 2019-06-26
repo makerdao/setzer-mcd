@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://www.okex.com/api/v1/ticker.do?symbol=ada_btc")
-dgd_btc=$(jshon <<<"$json" -e ticker -e last -u)
-dgd_btc=$(printf "%.10f" "$dgd_btc")
-btc_usd=$(setzer price btc)
-bc -l <<<"$dgd_btc * $btc_usd" | awk '{printf "%.10f", $0}'
