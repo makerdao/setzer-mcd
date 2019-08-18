@@ -4,4 +4,4 @@ json=$(curl -sS "https://api.gdax.com/products/GNT-USDC/ticker")
 gnt_usdc=$(jshon <<<"$json" -e price -u)
 gnt_usdc=$(printf "%.10f" "$gnt_usdc")
 usdc_usd=$(setzer price usdcusd)
-bc -l <<<"$gnt_usdc / usdc_usd" | awk '{printf "%.10f", $0}'
+bc -l <<<"$gnt_usdc / $usdc_usd" | awk '{printf "%.10f", $0}'
