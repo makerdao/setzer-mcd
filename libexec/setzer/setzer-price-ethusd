@@ -24,15 +24,7 @@ case $1 in
   bitstamp|coinbase|gemini|kraken) {
     setzer x-price "$1" "$pair"
   };;
-  ls) {
-    for src in "${sources[@]}"; do
-      echo "$src: $(setzer price "$pair" "$src")"
-    done
-  };;
-  sources) {
-    printf "%s\n" "${sources[@]}"
-  };;
-  median|*) {
-    setzer --median $pair "${sources[@]}"
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
   };;
 esac

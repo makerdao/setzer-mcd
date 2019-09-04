@@ -30,15 +30,8 @@ case $1 in
     usd_krw=$(setzer x-price fx usdkrw)
     setzer --format $(bc -l <<<"$gnt_krw / $usd_krw")
   };;
-  ls) {
-    for src in "${sources[@]}"; do
-      echo "$src: $(setzer price "$pair" "$src")"
-    done
-  };;
-  sources) {
-    printf "%s\n" "${sources[@]}"
-  };;
-  median|*) {
-    setzer --median $pair "${sources[@]}"
+  *) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
   };;
 esac

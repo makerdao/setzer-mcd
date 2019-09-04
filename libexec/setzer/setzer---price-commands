@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+pair=${2/:/}
+sources=( "${@:3}" )
+
+case $1 in
+  -ls-) {
+    for src in "${sources[@]}"; do
+      echo "$src: $(setzer price "$pair" "$src")"
+    done
+  };;
+  -sources-) {
+    printf "%s\n" "${sources[@]}"
+  };;
+  -median-|--) {
+    setzer --median "$pair" "${sources[@]}"
+  };;
+  *) {
+    echo "Error: price argument not recognised" && echo
+    setzer price --help
+  };;
+esac
