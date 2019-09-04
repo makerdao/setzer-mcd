@@ -10,11 +10,18 @@ sources=(
 case $1 in
   binance|coinbase|poloniex) {
     btc_usdc=$(setzer x-price $1 btc:usdc)
-    # TODO: swap bitfinex for median
-    btc_usd=$(setzer price btcusd bitfinex)
+    btc_usd=$(setzer price btcusd)
     setzer --format $(bc -l <<<"$btc_usdc / $btc_usd")
   };;
+  ls) {
+    for src in ${sources[@]}; do
+      echo "$src: $(setzer price $pair $src)"
+    done
+  };;
+  sources) {
+    printf "%s\n" ${sources[@]}
+  };;
   median|*) {
-    echo $(setzer --median $pair 2 ${sources[@]})
+    setzer --median $pair 2 ${sources[@]}
   };;
 esac

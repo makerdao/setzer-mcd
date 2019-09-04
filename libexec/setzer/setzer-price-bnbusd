@@ -15,14 +15,21 @@ case $1 in
   };;
   gateio) {
     bnb_btc=$(setzer x-price $1 bnbbtc)
-    # TODO: swap bitfinex for median
-    btc_usd=$(setzer price btcusd bitfinex)
+    btc_usd=$(setzer price btcusd)
     setzer --format $(bc -l <<<"$bnb_btc * $btc_usd")
   };;
   hitbtc) {
     setzer x-price $1 $pair
   };;
+  ls) {
+    for src in ${sources[@]}; do
+      echo "$src: $(setzer price $pair $src)"
+    done
+  };;
+  sources) {
+    printf "%s\n" ${sources[@]}
+  };;
   median|*) {
-    echo $(setzer --median $pair 2 ${sources[@]})
+    setzer --median $pair 2 ${sources[@]}
   };;
 esac

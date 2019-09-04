@@ -12,4 +12,8 @@ elif [[ $1 = -* ]] && which "${0##*/}-$1" &>/dev/null; then
   exec "${0##*/}-$1" "${@:2}"
 fi
 
+export SETZER_CACHE=${SETZER_CACHE:-~/.setzer}
+export SETZER_CACHE_EXPIRY=${SETZER_CACHE_EXPIRY:-60}
+export SETZER_TIMEOUT=${SETZER_TIMEOUT:-10}
+
 "${0##*/}-${1-help}" "${@:2}"

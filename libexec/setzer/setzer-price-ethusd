@@ -12,19 +12,27 @@ sources=(
 
 case $1 in
   binance) {
-    eth_btc=$(setzer x-price $1 ethbtc)
+    eth_btc=$(setzer x-price "$1" ethbtc)
     btc_usd=$(setzer price btcusd)
-    setzer --format $(bc -l <<<"$eth_btc * $btc_usd")
+    setzer --format "$(bc -l <<<"$eth_btc * $btc_usd")"
   };;
   bitfinex) {
-    eth_usdt=$(setzer x-price $1 $pair)
+    eth_usdt=$(setzer x-price "$1" "$pair")
     usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format $(bc -l <<<"$eth_usdt * $usdt_usd")
+    setzer --format "$(bc -l <<<"$eth_usdt * $usdt_usd")"
   };;
   bitstamp|coinbase|gemini|kraken) {
-    setzer x-price $1 $pair
+    setzer x-price "$1" "$pair"
+  };;
+  ls) {
+    for src in "${sources[@]}"; do
+      echo "$src: $(setzer price "$pair" "$src")"
+    done
+  };;
+  sources) {
+    printf "%s\n" "${sources[@]}"
   };;
   median|*) {
-    echo $(setzer --median $pair 3 ${sources[@]})
+    setzer --median $pair 3 "${sources[@]}"
   };;
 esac

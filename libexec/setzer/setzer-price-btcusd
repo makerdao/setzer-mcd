@@ -33,10 +33,15 @@ case $1 in
     usd_krw=$(setzer x-price fx usdkrw)
     setzer --format $(bc -l <<<"$btc_krw / $usd_krw")
   };;
+  ls) {
+    for src in ${sources[@]}; do
+      echo "$src: $(setzer price $pair $src)"
+    done
+  };;
+  sources) {
+    printf "%s\n" ${sources[@]}
+  };;
   median|*) {
-    # read from file if timestamp < ???
-    # otherwise get median
-    # and write to file
-    echo $(setzer --median $pair 3 ${sources[@]})
+    setzer --median $pair 3 ${sources[@]}
   };;
 esac

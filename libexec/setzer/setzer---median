@@ -1,21 +1,33 @@
 #!/usr/bin/env bash
 set -e
-pair=${1/:/}; shift
-min=$1; shift
+pair=${1/:/}; shift # e.g. ethusd
+min=$1; shift       # required prices for median
+sources=( "$@" )    # e.g. binance bitfinex coinbase
 
-for src in "$@"; do
-  price=$(timeout 5 setzer price $pair $src 2> /dev/null || true)
-  if [[ $price ]]; then
-    if [[ $price =~ ^[+-]?[0-9]+\.?[0-9]*$  ]]; then
-      prices+=( "$price" )
+mkdir -p "$SETZER_CACHE"
+file=$SETZER_CACHE/${pair,,}
+
+get-median () {
+  for src in "${sources[@]}"; do
+    price=$(timeout "$SETZER_TIMEOUT" setzer price "$pair" "$src" 2> /dev/null || true)
+    if [[ $price ]]; then
+      if [[ $price =~ ^[+-]?[0-9]+\.?[0-9]*$  ]]; then
+        prices+=( "$price" )
+      fi
     fi
+  done
+
+  if [[ ${#prices[@]} -lt $min ]]; then
+    echo "Error: not enough sources to provide a median"
+    exit 1
   fi
-done
 
-if [[ ${#prices[@]} -lt $min ]]; then
-  echo "Error: not enough sources to provide a median"
-  exit 1
-fi
+  med=$(tr " " "\\n" <<< "${prices[@]}" | datamash median 1)
+  setzer --format "$med" > "$file"
+}
 
-med=$(tr " " "\\n" <<< "${prices[@]}" | datamash median 1)
-setzer --format $med
+[[ ! -e $file ]] && get-median
+
+[ "$(( $(date +"%s") - $(date +"%s" -r "$file") ))" -gt "$SETZER_CACHE_EXPIRY" ] && get-median
+
+cat "$file"

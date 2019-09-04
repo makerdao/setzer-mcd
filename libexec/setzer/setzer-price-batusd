@@ -11,20 +11,17 @@ sources=(
 case $1 in
   binance) {
     bat_btc=$(setzer x-price $1 batbtc)
-    # TODO: swap bitfinex for median
-    btc_usd=$(setzer price btcusd bitfinex)
+    btc_usd=$(setzer price btcusd)
     setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
   };;
   bittrex) {
     bat_btc=$(setzer x-price $1 btcbat)
-    # TODO: swap bitfinex for median
-    btc_usd=$(setzer price btcusd bitfinex)
+    btc_usd=$(setzer price btcusd)
     setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
   };;
   coinbase) {
     bat_usdc=$(setzer x-price $1 bat:usdc)
-    # TODO
-    usdc_usd=$(setzer price usdc)
+    usdc_usd=$(setzer price usdcusd)
     setzer --format $(bc -l <<<"$bat_usdc * $usdc_usd")
   };;
   upbit) {
@@ -32,7 +29,15 @@ case $1 in
     usd_krw=$(setzer x-price fx usdkrw)
     setzer --format $(bc -l <<<"$bat_krw / $usd_krw")
   };;
+  ls) {
+    for src in ${sources[@]}; do
+      echo "$src: $(setzer price $pair $src)"
+    done
+  };;
+  sources) {
+    printf "%s\n" ${sources[@]}
+  };;
   median|*) {
-    echo $(setzer --median $pair 2 ${sources[@]})
+    setzer --median $pair 2 ${sources[@]}
   };;
 esac
