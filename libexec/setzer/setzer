@@ -4,64 +4,12 @@
 ###    or: setzer <command> --help
 ###
 ### Manipulate feeds and update data
-
-OPTS="setzer [<options>] <command> [<args>]
-setzer <command> --help
---
-  Options:
-auto                 run setzer bot in auto mode (no user interaction)
-C,config=file        configuration file
-S,spread=percent     minimum percent deviation to update (default: 1)
-I,interval=seconds   seconds to wait between checks (default: 60)
-R,resend=seconds     seconds to wait before resending tx (default: 90)
-
-  Gas options:
-gas-start=gas        starting gas price per tx in wei
-gas-inc=gas          amount to increment gas price per tx in wei
-gas-max=gas          maximum gas price to pay per tx in wei
-
-  Miscellaneous:
-verbose              output extra information (useful for debugging)
-"
-
 set -e
-
-if ! [[ $SETZER_INIT ]]; then
-  export SETZER_INIT=1
-  # shellcheck source=/dev/null
-  [[ -e ~/.setzerrc ]] && . ~/.setzerrc
-  # shellcheck source=/dev/null
-  [[ $(pwd) != ~ && -e .setzerrc ]] && . .setzerrc
-fi
 
 if [[ $2 = --help ]]; then
   exec "${0##*/}" help "$1"
 elif [[ $1 = -* ]] && which "${0##*/}-$1" &>/dev/null; then
   exec "${0##*/}-$1" "${@:2}"
 fi
-
-eval "$(git rev-parse --parseopt -- "$@" <<<"$OPTS" || echo exit $?)"
-
-while [[ $1 ]]; do
-  case $1 in
-    --)              shift; break;;
-    
-       --auto)              export SETZER_AUTO=yes;;
-       --verbose)           export SETZER_VERBOSE=yes;;
-
-    -C|--config)     shift; export SETZER_CONF=$1;;
-
-    -S|--spread)     shift; export SETZER_SPREAD=$1;;
-
-    -I|--interval)   shift; export SETZER_INTERVAL_SECONDS=$1;;
-    -R|--resend)     shift; export SETZER_WAIT_FOR_RESEND=$1;;
-
-       --gas-start)  shift; export SETZER_INITIAL_GAS_PRICE=$1;;
-       --gas-inc)    shift; export SETZER_GAS_PRICE_INCREMENT=$1;;
-       --gas-max)    shift; export SETZER_MAX_GAS_PRICE=$1;;
-
-    *) printf "${0##*/}: internal error: %q\\n" "$1"; exit 1
-  esac; shift
-done
 
 "${0##*/}-${1-help}" "${@:2}"

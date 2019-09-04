@@ -34,6 +34,9 @@ case $1 in
     setzer --format $(bc -l <<<"$btc_krw / $usd_krw")
   };;
   median|*) {
+    # read from file if timestamp < ???
+    # otherwise get median
+    # and write to file
     echo $(setzer --median $pair 3 ${sources[@]})
   };;
 esac
