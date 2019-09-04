@@ -1,3 +1,28 @@
 #!/usr/bin/env bash
 set -e
-setzer price bnb
+pair=bnbusd
+sources=(
+  binance
+  gateio
+  hitbtc
+)
+
+case $1 in
+  binance) {
+    bnb_usdt=$(setzer x-price $1 btc:usdc)
+    usdt_usd=$(setzer x-price cmc usdtusd)
+    setzer --format $(bc -l <<<"$bnb_usdt * $usdt_usd")
+  };;
+  gateio) {
+    bnb_btc=$(setzer x-price $1 bnbbtc)
+    # TODO: swap bitfinex for median
+    btc_usd=$(setzer price btcusd bitfinex)
+    setzer --format $(bc -l <<<"$bnb_btc * $btc_usd")
+  };;
+  hitbtc) {
+    setzer x-price $1 $pair
+  };;
+  median|*) {
+    echo $(setzer --median $pair 2 ${sources[@]})
+  };;
+esac

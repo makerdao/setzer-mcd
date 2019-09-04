@@ -45,6 +45,10 @@ case $src in
     json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
     setzer --format $(jshon <<<"$json" -e rates -e ${quote^^} -u)
   };;
+  gateio) {
+    json=$(curl -sS "https://fx-api.gateio.ws/api/v4/futures/tickers?contract=${base^^}_${quote^^}")
+    setzer --format $(jshon <<<"$json" -e 0 -e last -u)
+  };;
   gemini) {
     json=$(curl -sS "https://api.gemini.com/v1/pubticker/${pair,,}")
     setzer --format $(jshon <<<"$json" -e last -u)
