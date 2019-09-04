@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=KRW-BTC")
-btc_krw=$(jshon <<<"$json" -e 0 -e trade_price)
-btc_krw=$(printf "%.10f" "$btc_krw")
-json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=USD")
-usd_krw=$(jshon <<<"$json" -e rates -e KRW -u)
-bc -l <<<"$btc_krw / $usd_krw" | awk '{printf "%.10f", $0}'

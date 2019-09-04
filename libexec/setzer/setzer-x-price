@@ -35,6 +35,10 @@ case $src in
     json=$(curl -sS "https://api.gdax.com/products/${base^^}-${quote^^}/ticker")
     printf "%.10f\n" $(jshon <<<"$json" -e price -u)
   };;
+  fx) {
+    json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
+    printf "%.10f\n" $(jshon <<<"$json" -e rates -e ${quote^^} -u)
+  };;
   gemini) {
     json=$(curl -sS "https://api.gemini.com/v1/pubticker/${pair,,}")
     printf "%.10f\n" $(jshon <<<"$json" -e last -u)

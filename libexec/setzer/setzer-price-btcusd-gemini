@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.gemini.com/v1/pubticker/btcusd")
-btc_usd=$(jshon <<<"$json" -e last -u)
-btc_usd=$(printf "%.10f" "$btc_usd")
-echo "$btc_usd"
