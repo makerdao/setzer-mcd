@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.gdax.com/products/REP-USD/ticker")
-rep_usd=$(jshon <<<"$json" -e price -u)
-rep_usd=$(printf "%.10f" "$rep_usd")
-echo "$rep_usd"

@@ -14,7 +14,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$poly_btc * $btc_usd")"
   };;
   cmc) {
-    setzer --format $(setzer x-price "$1" polyusd)
+    setzer --format "$(setzer x-price "$1" polyusd)"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2

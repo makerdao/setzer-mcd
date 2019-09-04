@@ -62,7 +62,7 @@ case $src in
     setzer --format $(jshon <<<"$json" -e tick -e bid -e 0)
   };;
   kraken) {
-    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${pair^^}")
+    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
     setzer --format $(jshon <<<"$json" -e result -e X${base^^}Z${quote^^} -e c -e 0 -u)
   };;
   poloniex) {

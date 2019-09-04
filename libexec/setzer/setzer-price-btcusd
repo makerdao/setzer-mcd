@@ -13,25 +13,25 @@ sources=(
 
 case $1 in
   binance) {
-    btc_usdt=$(setzer x-price $1 btcusdt)
+    btc_usdt=$(setzer x-price "$1" btcusdt)
     usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format $(bc -l <<<"$btc_usdt * $usdt_usd")
+    setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
   bitfinex) {
-    btc_usdt=$(setzer x-price $1 btcusd)
+    btc_usdt=$(setzer x-price "$1" btcusd)
     usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format $(bc -l <<<"$btc_usdt * $usdt_usd")
+    setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
   bitstamp|coinbase|gemini) {
-    setzer x-price $1 $pair
+    setzer x-price "$1" $pair
   };;
   kraken) {
-    setzer x-price $1 xbtusd
+    setzer x-price "$1" xbtusd
   };;
   upbit) {
-    btc_krw=$(setzer x-price $1 btckrw)
-    usd_krw=$(setzer x-price fx usdkrw)
-    setzer --format $(bc -l <<<"$btc_krw / $usd_krw")
+    btc_krw=$(setzer x-price "$1" btckrw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$btc_krw * $krw_usd")"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

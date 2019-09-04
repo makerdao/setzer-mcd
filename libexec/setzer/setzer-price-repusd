@@ -1,3 +1,35 @@
 #!/usr/bin/env bash
 set -e
-setzer price rep
+pair=repusd
+sources=(
+  binance
+  bittrex
+  coinbase
+  kraken
+  poloniex
+  upbit
+)
+
+case $1 in
+  binance|bittrex|poloniex) {
+    rep_btc=$(setzer x-price "$1" repbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$rep_btc * $btc_usd")"
+  };;
+  coinbase) {
+    setzer --format "$(setzer x-price "$1" repusd)"
+  };;
+  kraken) {
+    rep_eur="$(setzer x-price "$1" repeur)"
+    eur_usd=$(setzer x-price fx eurusd)
+    setzer --format "$(bc -l <<<"$rep_eur * $eur_usd")"
+  };;
+  upbit) {
+    rep_krw=$(setzer x-price "$1" repkrw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$rep_krw * $krw_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
