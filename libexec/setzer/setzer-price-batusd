@@ -9,13 +9,8 @@ sources=(
 )
 
 case $1 in
-  binance) {
+  binance|bittrex) {
     bat_btc=$(setzer x-price $1 batbtc)
-    btc_usd=$(setzer price btcusd)
-    setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
-  };;
-  bittrex) {
-    bat_btc=$(setzer x-price $1 btcbat)
     btc_usd=$(setzer price btcusd)
     setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
   };;

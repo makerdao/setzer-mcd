@@ -26,7 +26,7 @@ case $src in
     setzer --format $(jshon <<<"$json" -e last -u)
   };;
   bittrex) {
-    json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=${base^^}-${quote^^}")
+    json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=${quote^^}-${base^^}")
     setzer --format $(jshon <<<"$json" -e result -e Last -u) # BTC
   };;
   cmc) {

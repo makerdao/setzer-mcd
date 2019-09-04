@@ -1,3 +1,44 @@
 #!/usr/bin/env bash
 set -e
-setzer price gnt
+pair=gntusd
+sources=(
+  binance
+  bittrex
+  coinbase
+  poliniex
+  upbit
+)
+
+case $1 in
+  binance|bittrex) {
+    gnt_btc=$(setzer x-price "$1" gntbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$gnt_btc * $btc_usd")"
+  };;
+  coinbase) {
+    gnt_usdc=$(setzer x-price $1 gnt:usdc)
+    usdc_usd=$(setzer price usdcusd)
+    setzer --format $(bc -l <<<"$gnt_usdc * $usdc_usd")
+  };;
+  poloniex) {
+    gnt_btc=$(setzer x-price $1 gntbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format $(bc -l <<<"$gnt_btc * $btc_usd")
+  };;
+  upbit) {
+    gnt_krw=$(setzer x-price $1 gntkrw)
+    usd_krw=$(setzer x-price fx usdkrw)
+    setzer --format $(bc -l <<<"$gnt_krw / $usd_krw")
+  };;
+  ls) {
+    for src in "${sources[@]}"; do
+      echo "$src: $(setzer price "$pair" "$src")"
+    done
+  };;
+  sources) {
+    printf "%s\n" "${sources[@]}"
+  };;
+  median|*) {
+    setzer --median $pair "${sources[@]}"
+  };;
+esac
