@@ -1,3 +1,23 @@
 #!/usr/bin/env bash
 set -e
-setzer price poly
+pair=poly:usd
+sources=(
+  binance
+  bittrex
+  cmc
+)
+
+case $1 in
+  binance|bittrex) {
+    poly_btc=$(setzer x-price "$1" poly:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$poly_btc * $btc_usd")"
+  };;
+  cmc) {
+    setzer --format $(setzer x-price "$1" polyusd)
+  };;
+  *) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
