@@ -26,8 +26,8 @@ case $1 in
   };;
   upbit) {
     omg_krw=$(setzer x-price "$1" omgkrw)
-    usd_krw=$(setzer x-price fx usdkrw)
-    setzer --format "$(bc -l <<<"$omg_krw / $usd_krw")"
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$omg_krw * $krw_usd")"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

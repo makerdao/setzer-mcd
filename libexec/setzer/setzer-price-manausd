@@ -15,9 +15,9 @@ case $1 in
     setzer --format "$(bc -l <<<"$mana_btc * $btc_usd")"
   };;
   upbit) {
-    mana_krw=$(setzer x-price $1 mana:krw)
-    usd_krw=$(setzer x-price fx usdkrw)
-    setzer --format $(bc -l <<<"$mana_krw / $usd_krw")
+    mana_krw=$(setzer x-price "$1" mana:krw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$mana_krw * $krw_usd")"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

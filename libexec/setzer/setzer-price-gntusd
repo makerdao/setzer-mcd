@@ -5,7 +5,7 @@ sources=(
   binance
   bittrex
   coinbase
-  poliniex
+  poloniex
   upbit
 )
 
@@ -27,8 +27,8 @@ case $1 in
   };;
   upbit) {
     gnt_krw=$(setzer x-price $1 gntkrw)
-    usd_krw=$(setzer x-price fx usdkrw)
-    setzer --format $(bc -l <<<"$gnt_krw / $usd_krw")
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format $(bc -l <<<"$gnt_krw * $krw_usd")
   };;
   *) {
     export SETZER_MIN_MEDIAN=2
