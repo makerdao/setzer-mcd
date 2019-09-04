@@ -15,5 +15,6 @@ fi
 export SETZER_CACHE=${SETZER_CACHE:-~/.setzer}
 export SETZER_CACHE_EXPIRY=${SETZER_CACHE_EXPIRY:-60}
 export SETZER_TIMEOUT=${SETZER_TIMEOUT:-10}
+export SETZER_MIN_MEDIAN=${SETZER_MIN_MEDIAN:-3}
 
 "${0##*/}-${1-help}" "${@:2}"

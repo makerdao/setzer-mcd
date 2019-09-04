@@ -38,6 +38,7 @@ case $1 in
     printf "%s\n" ${sources[@]}
   };;
   median|*) {
-    setzer --median $pair 2 ${sources[@]}
+    export SETZER_MIN_MEDIAN=2
+    setzer --median $pair ${sources[@]}
   };;
 esac

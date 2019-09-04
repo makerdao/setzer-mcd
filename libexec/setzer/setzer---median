@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 pair=${1/:/}; shift # e.g. ethusd
-min=$1; shift       # required prices for median
 sources=( "$@" )    # e.g. binance bitfinex coinbase
 
 mkdir -p "$SETZER_CACHE"
@@ -17,7 +16,7 @@ get-median () {
     fi
   done
 
-  if [[ ${#prices[@]} -lt $min ]]; then
+  if [[ ${#prices[@]} -lt $SETZER_MIN_MEDIAN ]]; then
     echo "Error: not enough sources to provide a median"
     exit 1
   fi

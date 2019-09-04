@@ -33,6 +33,6 @@ case $1 in
     printf "%s\n" "${sources[@]}"
   };;
   median|*) {
-    setzer --median $pair 3 "${sources[@]}"
+    setzer --median $pair "${sources[@]}"
   };;
 esac

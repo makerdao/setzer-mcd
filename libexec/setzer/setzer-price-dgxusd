@@ -1,3 +1,34 @@
 #!/usr/bin/env bash
 set -e
-setzer price dgx
+pair=dgxusd
+sources=(
+  bitfinex
+  kyber
+)
+
+case $1 in
+  bitfinex) {
+    dgx_usdt=$(setzer x-price "$1" dgxusd)
+    usdt_usd=$(setzer x-price cmc usdtusd)
+    setzer --format "$(bc -l <<<"$dgx_usdt * $usdt_usd")"
+  };;
+  kyber) {
+    json=$(curl -sS "https://api.kyber.network/buy_rate?id=0x4f3afec4e5a3f2a6a1a411def7d7dfe50ee057bf&qty=2.5")
+    eth=$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)
+    dgx=$(jshon <<<"$json" -e data -e 0 -e dst_qty -e 0 -u)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$eth / $dgx * $eth_usd")"
+  };;
+  ls) {
+    for src in "${sources[@]}"; do
+      echo "$src: $(setzer price "$pair" "$src")"
+    done
+  };;
+  sources) {
+    printf "%s\n" "${sources[@]}"
+  };;
+  median|*) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --median $pair "${sources[@]}"
+  };;
+esac
