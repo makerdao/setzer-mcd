@@ -1,3 +1,38 @@
 #!/usr/bin/env bash
 set -e
-setzer price bat
+pair=batusd
+sources=(
+  binance
+  bittrex
+  coinbase
+  upbit
+)
+
+case $1 in
+  binance) {
+    bat_btc=$(setzer x-price $1 batbtc)
+    # TODO: swap bitfinex for median
+    btc_usd=$(setzer price btcusd bitfinex)
+    setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
+  };;
+  bittrex) {
+    bat_btc=$(setzer x-price $1 btcbat)
+    # TODO: swap bitfinex for median
+    btc_usd=$(setzer price btcusd bitfinex)
+    setzer --format $(bc -l <<<"$bat_btc * $btc_usd")
+  };;
+  coinbase) {
+    bat_usdc=$(setzer x-price $1 bat:usdc)
+    # TODO
+    usdc_usd=$(setzer price usdc)
+    setzer --format $(bc -l <<<"$bat_usdc * $usdc_usd")
+  };;
+  upbit) {
+    bat_krw=$(setzer x-price $1 batkrw)
+    usd_krw=$(setzer x-price fx usdkrw)
+    setzer --format $(bc -l <<<"$bat_krw / $usd_krw")
+  };;
+  median|*) {
+    echo $(setzer --median $pair 2 ${sources[@]})
+  };;
+esac

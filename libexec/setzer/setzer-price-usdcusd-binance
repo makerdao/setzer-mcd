@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=BTCUSDC")
-btc_usdc=$(jshon <<<"$json" -e price -u)
-btc_usdc=$(printf "%.10f" "$btc_usdc")
-btc_usd=$(setzer price btc)
-bc -l <<<"$btc_usdc / $btc_usd" | awk '{printf "%.10f", $0}'

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-pair=$1; shift
+set -e
+pair=${1/:/}; shift
+min=$1; shift
 
 for src in "$@"; do
   price=$(timeout 5 setzer price $pair $src 2> /dev/null || true)
@@ -10,7 +12,7 @@ for src in "$@"; do
   fi
 done
 
-if [[ ${#prices[@]} -lt 3 ]]; then
+if [[ ${#prices[@]} -lt $min ]]; then
   echo "Error: not enough sources to provide a median"
   exit 1
 fi

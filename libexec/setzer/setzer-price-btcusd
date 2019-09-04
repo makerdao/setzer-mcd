@@ -34,6 +34,6 @@ case $1 in
     setzer --format $(bc -l <<<"$btc_krw / $usd_krw")
   };;
   median|*) {
-    echo $(setzer --median $pair ${sources[@]})
+    echo $(setzer --median $pair 3 ${sources[@]})
   };;
 esac

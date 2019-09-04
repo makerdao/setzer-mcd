@@ -1,3 +1,20 @@
 #!/usr/bin/env bash
 set -e
-setzer price usdc
+pair=usdc:usd
+sources=(
+  binance
+  coinbase
+  poloniex
+)
+
+case $1 in
+  binance|coinbase|poloniex) {
+    btc_usdc=$(setzer x-price $1 btc:usdc)
+    # TODO: swap bitfinex for median
+    btc_usd=$(setzer price btcusd bitfinex)
+    setzer --format $(bc -l <<<"$btc_usdc / $btc_usd")
+  };;
+  median|*) {
+    echo $(setzer --median $pair 2 ${sources[@]})
+  };;
+esac
