@@ -1,3 +1,33 @@
 #!/usr/bin/env bash
 set -e
-setzer price bnb
+pair=mana:usd
+sources=(
+  binance
+  bittrex
+  huobi
+  upbit
+)
+
+case $1 in
+  binance|bittrex|huobi) {
+    mana_btc=$(setzer x-price "$1" mana:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$mana_btc * $btc_usd")"
+  };;
+  upbit) {
+    mana_krw=$(setzer x-price $1 mana:krw)
+    usd_krw=$(setzer x-price fx usdkrw)
+    setzer --format $(bc -l <<<"$mana_krw / $usd_krw")
+  };;
+  ls) {
+    for src in "${sources[@]}"; do
+      echo "$src: $(setzer price "${pair/:/}" "$src")"
+    done
+  };;
+  sources) {
+    printf "%s\n" "${sources[@]}"
+  };;
+  median|*) {
+    setzer --median $pair "${sources[@]}"
+  };;
+esac

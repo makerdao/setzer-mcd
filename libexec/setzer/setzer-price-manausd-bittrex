@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=BTC-MANA")
-mana_btc=$(jshon <<<"$json" -e result -e Last -u)
-mana_btc=$(printf "%.10f" "$mana_btc")
-btc_usd=$(setzer price btc)
-bc -l <<<"$mana_btc * $btc_usd" | awk '{printf "%.10f", $0}'
