@@ -9,19 +9,19 @@ sources=(
 
 case $1 in
   binance) {
-    bnb_usdt=$(setzer x-price $1 btc:usdc)
+    bnb_usdt=$(setzer x-price "$1" bnb:usdc)
     usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format $(bc -l <<<"$bnb_usdt * $usdt_usd")
+    setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
   };;
   gateio) {
-    bnb_btc=$(setzer x-price $1 bnbbtc)
-    btc_usd=$(setzer price btcusd)
-    setzer --format $(bc -l <<<"$bnb_btc * $btc_usd")
+    bnb_usdt=$(setzer x-price "$1" bnbusd)
+    usdt_usd=$(setzer x-price cmc usdtusd)
+    setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
   };;
   hitbtc) {
     bnb_usdt=$(setzer x-price "$1" bnbusd)
     usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format $(bc -l <<<"$bnb_usdt * $usdt_usd")
+    setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2

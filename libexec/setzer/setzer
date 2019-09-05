@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-### setzer -- manipulate feeds
-### Usage: setzer [<options>] <command> [<args>]
+### setzer -- collateral price feeds
+### Usage: setzer <command> [<args>]
 ###    or: setzer <command> --help
 ###
-### Manipulate feeds and update data
+### Setzer: Query USD price feeds
 set -e
 
 if [[ $2 = --help ]]; then
   exec "${0##*/}" help "$1"
-elif [[ $1 = -* ]] && which "${0##*/}-$1" &>/dev/null; then
+elif [[ $1 = -* ]] && command -v "${0##*/}-$1" &>/dev/null; then
   exec "${0##*/}-$1" "${@:2}"
 fi
 

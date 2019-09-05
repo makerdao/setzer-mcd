@@ -1,35 +1,25 @@
 #!/usr/bin/env bash
-### setzer-price -- show ETH/USD price from <source>
-### Usage: setzer price ls (lists all sources)
-###    or: setzer price <source>
+### setzer-price -- Show price(s) for a given asset or pair
+### Usage: setzer price <pair> [<command>]
+###
+### Commands:
+###
+###    price <pair>             Print median price from all sources
+###    price <pair> median      Print median price from all sources (alias)
+###    price <pair> <source>    Print the price for a given source
+###    price <pair> ls          List prices for a given pair
+###    price <pair> sources     List price sources for a given pair
+###
+### Examples:
+###
+###    setzer price ETH
+###    setzer price ethusd bitfinex
+###    setzer price btc ls
+###
+### See `setzer pairs' for a list of supported pairs
 set -e
+[ $# -gt 0 ] || setzer --bad-usage "$0"
+pair="${1,,}" && [[ "${pair,,}" != *"usd" ]] && pair="${pair}usd"
+[[ ! -e "$0-$pair" ]] && echo "Error: $1 - not a recognised pair" && exit 1
 
-#name=setzer
-
-if [[ $1 ]]; then
-  exec "$0-$1" "${@:2}"
-fi
-
-# setzer help price
-
-# for file in ${0%/*}/$name-price-*; do
-#   if [[ -L $file ]]; then
-#     continue
-#   else
-#     [[ "${file##*-}" != "ls" ]] && commands+=("$file")
-#   fi
-# done
-
-# list-commands() {
-#   for x in "$@"; do
-#     echo "   ${x##*-}"
-#   done
-# }
-
-# cat <<.
-
-# Sources:
-
-# $(list-commands "${commands[@]}")
-
-# .
+exec "$0-$pair" "${@:2}"

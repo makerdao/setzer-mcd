@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+### setzer-pairs -- List all supported pairs
+### Usage: setzer pairs
+set -e
+for file in "${0%/*}"/setzer-price-*; do
+  pair=${file##*price-}
+  echo "${pair^^}"
+done

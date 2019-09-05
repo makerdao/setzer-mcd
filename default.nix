@@ -1,18 +1,18 @@
 { stdenv, makeWrapper, lib, fetchFromGitHub, glibcLocales
-, seth, curl, jshon, bc, gnused, which, perl, datamash }:
+, coreutils, curl, jshon, bc, gnused, perl, datamash, git }:
 
 stdenv.mkDerivation rec {
-  name = "setzer-${version}";
-  version = "0.3.0";
+  name = "setzer-mcd-${version}";
+  version = "0.1.0";
   src = ./.;
 
   nativeBuildInputs = [makeWrapper];
   buildPhase = "true";
   makeFlags = ["prefix=$(out)"];
   postInstall = let path = lib.makeBinPath [
-    seth curl jshon bc gnused which perl datamash
+    coreutils curl jshon bc gnused perl datamash git
   ]; in ''
-    wrapProgram "$out/bin/setzer" --prefix PATH : "${path}" \
+    wrapProgram "$out/bin/setzer" --set PATH "${path}" \
       ${if glibcLocales != null then
         "--set LOCALE_ARCHIVE \"${glibcLocales}\"/lib/locale/locale-archive"
         else ""}

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-printf "%.10f\n" $1
+printf "%.10f\n" "$1"

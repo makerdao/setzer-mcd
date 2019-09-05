@@ -15,19 +15,19 @@ fi
 case $src in
   binance) {
     json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${pair^^}")
-    setzer --format $(jshon <<<"$json" -e price -u)
+    setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   bitfinex) {
     json=$(curl -sS "https://api.bitfinex.com/v2/ticker/t${pair^^}")
-    setzer --format $(jshon <<<"$json" -e 6)
+    setzer --format "$(jshon <<<"$json" -e 6)"
   };;
   bitstamp) {
     json=$(curl -sS "https://www.bitstamp.net/api/v2/ticker/${pair,,}/")
-    setzer --format $(jshon <<<"$json" -e last -u)
+    setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   bittrex) {
     json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=${quote^^}-${base^^}")
-    setzer --format $(jshon <<<"$json" -e result -e Last -u) # BTC
+    setzer --format "$(jshon <<<"$json" -e result -e Last -u)"
   };;
   cmc) {
     ticker=$(case "${pair^^}" in
@@ -35,43 +35,43 @@ case $src in
       POLYUSD) { echo "2496"; };;
     esac)
     json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/$ticker/")
-    setzer --format $(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
+    setzer --format "$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)"
   };;
   coinbase) {
     json=$(curl -sS "https://api.gdax.com/products/${base^^}-${quote^^}/ticker")
-    setzer --format $(jshon <<<"$json" -e price -u)
+    setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   fx) {
     json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
-    setzer --format $(jshon <<<"$json" -e rates -e ${quote^^} -u)
+    setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
   };;
   gateio) {
     json=$(curl -sS "https://fx-api.gateio.ws/api/v4/futures/tickers?contract=${base^^}_${quote^^}")
-    setzer --format $(jshon <<<"$json" -e 0 -e last -u)
+    setzer --format "$(jshon <<<"$json" -e 0 -e last -u)"
   };;
   gemini) {
     json=$(curl -sS "https://api.gemini.com/v1/pubticker/${pair,,}")
-    setzer --format $(jshon <<<"$json" -e last -u)
+    setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   hitbtc) {
     json=$(curl -sS "https://api.hitbtc.com/api/2/public/ticker/${pair^^}/")
-    setzer --format $(jshon <<<"$json" -e last -u)
+    setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   huobi) {
     json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${pair,,}")
-    setzer --format $(jshon <<<"$json" -e tick -e bid -e 0)
+    setzer --format "$(jshon <<<"$json" -e tick -e bid -e 0)"
   };;
   kraken) {
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
-    setzer --format $(jshon <<<"$json" -e result -e X${base^^}Z${quote^^} -e c -e 0 -u)
+    setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
   };;
   poloniex) {
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
-    setzer --format $(jshon <<<"$json" -e ${quote^^}_${base^^} -e last -u)
+    setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
   };;
   upbit) {
     json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")
-    setzer --format $(jshon <<<"$json" -e 0 -e trade_price) #KRW
+    setzer --format "$(jshon <<<"$json" -e 0 -e trade_price)"
   };;
   *) {
     echo >&2 "Error: exchange not recognised: $src"

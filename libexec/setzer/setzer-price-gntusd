@@ -16,19 +16,19 @@ case $1 in
     setzer --format "$(bc -l <<<"$gnt_btc * $btc_usd")"
   };;
   coinbase) {
-    gnt_usdc=$(setzer x-price $1 gnt:usdc)
+    gnt_usdc=$(setzer x-price "$1" gnt:usdc)
     usdc_usd=$(setzer price usdcusd)
-    setzer --format $(bc -l <<<"$gnt_usdc * $usdc_usd")
+    setzer --format "$(bc -l <<<"$gnt_usdc * $usdc_usd")"
   };;
   poloniex) {
-    gnt_btc=$(setzer x-price $1 gntbtc)
+    gnt_btc=$(setzer x-price "$1" gntbtc)
     btc_usd=$(setzer price btcusd)
-    setzer --format $(bc -l <<<"$gnt_btc * $btc_usd")
+    setzer --format "$(bc -l <<<"$gnt_btc * $btc_usd")"
   };;
   upbit) {
-    gnt_krw=$(setzer x-price $1 gntkrw)
+    gnt_krw=$(setzer x-price "$1" gntkrw)
     krw_usd=$(setzer x-price fx krwusd)
-    setzer --format $(bc -l <<<"$gnt_krw * $krw_usd")
+    setzer --format "$(bc -l <<<"$gnt_krw * $krw_usd")"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2
