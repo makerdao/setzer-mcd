@@ -9,9 +9,9 @@ sources=(
 
 case $1 in
   binance) {
-    bnb_usdt=$(setzer x-price "$1" bnb:usdc)
-    usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
+    bnb_usdc=$(setzer x-price "$1" bnb:usdc)
+    usdc_usd=$(setzer price usdcusd)
+    setzer --format "$(bc -l <<<"$bnb_usdc * $usdc_usd")"
   };;
   gateio) {
     bnb_usdt=$(setzer x-price "$1" bnbusd)

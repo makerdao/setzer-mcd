@@ -11,7 +11,7 @@ case $1 in
   binance|coinbase|poloniex) {
     btc_usdc=$(setzer x-price "$1" btc:usdc)
     btc_usd=$(setzer price btcusd)
-    setzer --format "$(bc -l <<<"$btc_usdc / $btc_usd")"
+    setzer --format "$(bc -l <<<"$btc_usd / $btc_usdc")"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2
