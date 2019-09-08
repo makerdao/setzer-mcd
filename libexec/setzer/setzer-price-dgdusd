@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 set -e
-setzer price dgd
+pair=dgdusd
+sources=(
+  binance
+  huobi
+)
+
+case $1 in
+  binance|huobi) {
+    dgd_btc=$(setzer x-price "$1" dgdbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$dgd_btc * $btc_usd")"
+  };;
+  *) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

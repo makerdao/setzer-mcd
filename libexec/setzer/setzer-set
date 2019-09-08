@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-### setzer-set -- set next feed of a medianizer
-### Usage: setzer set <medianizer> <feed>
-###
-### Add <feed> at the end of a <medianizer>
-set -e
-[[ $# -ge 2 ]] || setzer --bad-usage "$0"
-echo "${@:3}"
-(set -x; seth send "$1" "set(address)" "$2" "${@:3}")

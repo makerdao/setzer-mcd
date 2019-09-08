@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=XREPZEUR")
-rep_eur=$(jshon <<<"$json" -e result -e XREPZEUR -e c -e 0 -u)
-rep_eur=$(printf "%.10f" "$rep_eur")
-json=$(curl -sS "https://free.currencyconverterapi.com/api/v6/convert?q=EUR_USD&compact=y")
-eur_usd=$(jshon <<<"$json" -e EUR_USD -e val)
-eur_usd=$(printf "%.10f" "$eur_usd")
-bc -l <<<"$rep_eur * $eur_usd" | awk '{printf "%.10f", $0}'

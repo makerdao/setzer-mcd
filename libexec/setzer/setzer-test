@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+### setzer-test -- Test all price feeds
+### Usage: setzer test
+set -e
+rm -rf "$SETZER_CACHE"
+export SETZER_CACHE_EXPIRY=120
+
+for pair in $(setzer pairs); do
+  echo "[${pair^^}]"
+  setzer price "$pair" ls
+done

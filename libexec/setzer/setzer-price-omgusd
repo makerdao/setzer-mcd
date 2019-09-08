@@ -1,3 +1,35 @@
 #!/usr/bin/env bash
 set -e
-setzer price omg
+pair=omgusd
+sources=(
+  binance
+  bitfinex
+  huobi
+  upbit
+)
+
+case $1 in
+  binance) {
+    omg_btc=$(setzer x-price "$1" omgbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$omg_btc * $btc_usd")"
+  };;
+  bitfinex) {
+    omg_usdt=$(setzer x-price "$1" omgusd)
+    usdt_usd=$(setzer x-price cmc usdt:usd)
+    setzer --format "$(bc -l <<<"$omg_usdt * $usdt_usd")"
+  };;
+  huobi) {
+    omg_usdt=$(setzer x-price "$1" omg:usdt)
+    usdt_usd=$(setzer x-price cmc usdt:usd)
+    setzer --format "$(bc -l <<<"$omg_usdt * $usdt_usd")"
+  };;
+  upbit) {
+    omg_krw=$(setzer x-price "$1" omgkrw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$omg_krw * $krw_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

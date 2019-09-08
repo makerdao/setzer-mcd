@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=manabtc")
-mana_btc=$(jshon <<<"$json" -e tick -e bid -e 0)
-mana_btc=$(printf "%.10f" "$mana_btc")
-btc_usd=$(setzer price btc)
-bc -l <<<"$mana_btc * $btc_usd" | awk '{printf "%.10f", $0}'

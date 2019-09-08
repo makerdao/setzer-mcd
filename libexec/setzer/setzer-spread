@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-### setzer-spread -- variance of 2 values in %
-### Usage: setzer spread <value1> <value2>
-###
-### Returns % variance between <value1> and <value2>
+### included for backwards compatibility
 set -e
 [[ $# = 2 ]] || setzer --bad-usage "$0"
 

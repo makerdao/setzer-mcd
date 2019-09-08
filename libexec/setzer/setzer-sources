@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
-### setzer-sources -- returns price sources for <asset>
-### Usage: setzer sources <asset>
+### setzer-sources -- Show price sources for a given asset or pair
+### Usage: setzer sources <pair>
 ###
-### Returns price sources for <asset>
+### Example: setzer sources ETH
+###          setzer sources ETHUSD
+###          setzer sources btcusd
+###
+### See `setzer pairs' for a list of supported pairs
 set -e
-
-[[ $1 ]] || setzer --bad-usage "$0"
-name=setzer
-for file in ${0%/*}/$name-price-$1-*; do
-  if [[ -L $file ]]; then
-    continue
-  else
-    if [[ "${file##*-}" != "ls" ]]; then
-      echo "${file##*-}"
-    fi
-  fi
-done
+[ $# = 1 ] || setzer --bad-usage "$0"
+setzer price "$1" sources

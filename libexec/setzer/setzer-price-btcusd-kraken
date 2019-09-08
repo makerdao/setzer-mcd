@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=XBTUSD")
-btc_usd=$(jshon <<<"$json" -e result -e XXBTZUSD -e c -e 0 -u)
-btc_usd=$(printf "%.10f" "$btc_usd")
-echo "$btc_usd"

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-### setzer-void -- invalidate a feed
-### Usage: setzer void <target>
-###
-### voids <target>. Read will fail, peek will return false
-set -e
-[[ $# -ge 1 ]] || setzer --bad-usage "$0"
-(set -x; seth send "$1" "void()" "${@:2}")

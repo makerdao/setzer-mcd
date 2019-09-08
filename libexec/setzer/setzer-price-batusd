@@ -1,3 +1,31 @@
 #!/usr/bin/env bash
 set -e
-setzer price bat
+pair=batusd
+sources=(
+  binance
+  bittrex
+  coinbase
+  upbit
+)
+
+case $1 in
+  binance|bittrex) {
+    bat_btc=$(setzer x-price "$1" batbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$bat_btc * $btc_usd")"
+  };;
+  coinbase) {
+    bat_usdc=$(setzer x-price "$1" bat:usdc)
+    usdc_usd=$(setzer price usdcusd)
+    setzer --format "$(bc -l <<<"$bat_usdc * $usdc_usd")"
+  };;
+  upbit) {
+    bat_krw=$(setzer x-price "$1" batkrw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$bat_krw * $krw_usd")"
+  };;
+  *) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

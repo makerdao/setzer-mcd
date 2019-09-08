@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-### setzer-help -- print help about setzer(1) or one of its subcommands
+### setzer-help -- Print help about setzer or one of its subcommands
 ### Usage: setzer help [<command>]
 ###    or: setzer <command> --help
 
-BUGS=https://github.com/makerdao/setzer/issues
+BUGS=https://github.com/makerdao/setzer-mcd/issues
 
 name=setzer
 file=${0%-*}${1+-$1}
@@ -14,12 +14,12 @@ if ! [[ $header ]]; then
 elif [[ $(wc -l <<<"$header") = 1 ]]; then
   echo "$header"
 else
-  sed "1{/^$name\\S* -- /d;}" <<<"$header"
+  sed "1{/^$name.* -- /d;}" <<<"$header"
 fi
 
 [[ $1 ]] && exit
 
-for file in ${0%/*}/$name-*; do
+for file in "${0%/*}"/"$name"-*; do
   if [[ -L $file ]]; then
     continue
   else

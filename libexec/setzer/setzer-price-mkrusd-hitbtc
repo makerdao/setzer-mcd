@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -e
-json=$(curl -sS "https://api.hitbtc.com/api/1/public/mkrusd/ticker")
-mkr_usdt=$(jshon <<<"$json" -e last -u)
-mkr_usdt=$(printf "%.10f" "$mkr_usdt")
-json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/825/")
-usdt_usd=$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)
-usdt_usd=$(printf "%.10f" "$usdt_usd")
-bc -l <<<"$mkr_usdt * $usdt_usd" | awk '{printf "%.10f", $0}'
