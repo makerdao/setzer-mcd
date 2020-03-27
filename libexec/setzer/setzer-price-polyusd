@@ -17,7 +17,7 @@ case $1 in
     setzer --format "$(setzer x-price "$1" polyusd)"
   };;
   cryptocompare) {
-    setzer --format "$(setzer x-price "$1" polyusd)"
+    setzer --format "$(setzer x-price "$1" poly:usd)"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2
