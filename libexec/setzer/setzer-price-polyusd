@@ -3,18 +3,21 @@ set -e
 pair=poly:usd
 sources=(
   binance
-  bittrex
   cmc
+  cryptocompare
 )
 
 case $1 in
-  binance|bittrex) {
+  binance) {
     poly_btc=$(setzer x-price "$1" poly:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$poly_btc * $btc_usd")"
   };;
   cmc) {
-    setzer --format "$(setzer x-price "$1" polyusd)"
+    setzer --format "$(setzer x-price "$1" poly:usd)"
+  };;
+  cryptocompare) {
+    setzer --format "$(setzer x-price "$1" poly:usd)"
   };;
   *) {
     export SETZER_MIN_MEDIAN=2

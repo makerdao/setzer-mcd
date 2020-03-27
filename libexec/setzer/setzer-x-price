@@ -34,12 +34,16 @@ case $src in
       USDTUSD) { echo "825";  };;
       POLYUSD) { echo "2496"; };;
     esac)
-    json=$(curl -sS "https://api.coinmarketcap.com/v2/ticker/$ticker/")
-    setzer --format "$(jshon <<<"$json" -e data -e quotes -e USD -e price -u)"
+    json=$(curl -sS -H "X-CMC_PRO_API_KEY:  $CMC_API_KEY" -H "Accept: application/json" -d  "id=$ticker" -G https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest)
+    setzer --format "$(jshon <<<"$json" -e data -e "$ticker" -e quote -e USD -e price -u)"
   };;
   coinbase) {
     json=$(curl -sS "https://api.gdax.com/products/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e price -u)"
+  };;
+  cryptocompare) {
+    json=$(curl -sS "https://min-api.cryptocompare.com/data/price?fsym=${base^^}&tsyms=${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e USD -u)"
   };;
   fx) {
     json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
@@ -64,6 +68,10 @@ case $src in
   kraken) {
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
+  };;
+  okex) {
+    json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
+    setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   poloniex) {
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
