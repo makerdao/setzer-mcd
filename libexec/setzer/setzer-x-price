@@ -66,7 +66,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
   };;
   okex) {
-    json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${quote^^}-${base^^}/ticker")
+    json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   poloniex) {
