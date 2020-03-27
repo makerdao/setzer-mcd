@@ -10,14 +10,14 @@ sources=(
 
 case $1 in
   bitfinex) {
-    mkr_btc=$(setzer x-price "$1" mkrbtc)
-    btc_usd=$(setzer price btcusd)
-    setzer --format "$(bc -l <<<"$mkr_btc * $btc_usd")"
+    mkr_eth=$(setzer x-price "$1" mkreth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$mkr_eth * $eth_usd")"
   };;
   hitbtc) {
-    mkr_usdt=$(setzer x-price "$1" mkrusd)
-    usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format "$(bc -l <<<"$mkr_usdt * $usdt_usd")"
+    mkr_btc=$(setzer x-price "$1" mkrbtc)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$mkr_btc * $eth_usd")"
   };;
   kyber) {
     json=$(curl -sS "https://api.kyber.network/buy_rate?id=0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2&qty=1.0")
