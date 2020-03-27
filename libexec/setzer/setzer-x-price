@@ -65,6 +65,10 @@ case $src in
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
   };;
+  okex) {
+    json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${quote^^}-${base^^}/ticker")
+    setzer --format "$(jshon <<<"$json" -e last -u)"
+  };;
   poloniex) {
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
