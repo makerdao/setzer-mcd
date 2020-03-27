@@ -14,7 +14,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$poly_btc * $btc_usd")"
   };;
   cmc) {
-    setzer --format "$(setzer x-price "$1" polyusd)"
+    setzer --format "$(setzer x-price "$1" poly:usd)"
   };;
   cryptocompare) {
     setzer --format "$(setzer x-price "$1" poly:usd)"
