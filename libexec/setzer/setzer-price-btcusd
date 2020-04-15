@@ -17,12 +17,7 @@ case $1 in
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
-  bitfinex) {
-    btc_usdt=$(setzer x-price "$1" btcusd)
-    usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
-  };;
-  bitstamp|coinbase|gemini) {
+  bitfinex|bitstamp|coinbase|gemini) {
     setzer x-price "$1" $pair
   };;
   kraken) {
