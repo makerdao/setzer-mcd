@@ -11,7 +11,7 @@ sources=(
 )
 
 case $1 in
-  binance|bitfinex|coinbase|hitbtc|huobi|poloniex) {
+  binance|coinbase|hitbtc|huobi|kraken|poloniex) {
     setzer x-price "$1" ethbtc
   };;
   *) {
