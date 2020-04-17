@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+pair=linkusd
+sources=(
+  binance
+  coinbase
+  huobi
+  kraken
+)
+
+case $1 in
+  binance|houbi) {
+    link_usdt=$(setzer x-price "$1" link:usdt)
+    usdt_usd=$(setzer x-price cmc usdtusd)
+    setzer --format "$(bc -l <<<"$link_usdt * $usdt_usd")"
+  };;
+  coinbase) {
+    link_usd=$(setzer x-price "$1" link:usd)
+    setzer --format "$link_usd"
+  };;
+  kraken) {
+    link_usd=$(setzer x-price krakenv3 link:usd)
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
