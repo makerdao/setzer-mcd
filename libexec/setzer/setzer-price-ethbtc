@@ -15,7 +15,7 @@ case $1 in
     setzer x-price "$1" ethbtc
   };;
   kraken) {
-    setzer x-price kraken xeth:xbtc 
+    setzer x-price kraken xeth:xxbt 
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

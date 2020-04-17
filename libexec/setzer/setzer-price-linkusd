@@ -9,7 +9,7 @@ sources=(
 )
 
 case $1 in
-  binance|houbi) {
+  binance|huobi) {
     link_usdt=$(setzer x-price "$1" link:usdt)
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$link_usdt * $usdt_usd")"

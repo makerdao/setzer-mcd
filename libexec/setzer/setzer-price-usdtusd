@@ -10,10 +10,15 @@ sources=(
 )
 
 case $1 in
-  binance|bitfinex|huobi|okex) {
+  binance|huobi|okex) {
     btc_usdt=$(setzer x-price "$1" btc:usdt)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$btc_usd / $btc_usdt")"
+  };;
+  bitfinex) {
+    btc_usdt=$(setzer x-price "$1" btc:usd)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$btc_usd / btc_usdt")"
   };;
   kraken) {
     setzer x-price kraken usdt:zusd
