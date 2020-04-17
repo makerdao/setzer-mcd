@@ -15,11 +15,10 @@ case $1 in
     setzer --format "$(bc -l <<<"$link_usdt * $usdt_usd")"
   };;
   coinbase) {
-    link_usd=$(setzer x-price "$1" link:usd)
-    setzer --format "$link_usd"
+    setzer x-price "$1" link:usd
   };;
   kraken) {
-    link_usd=$(setzer x-price krakenv3 link:usd)
+    setzer x-price krakenv3 link:usd
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
