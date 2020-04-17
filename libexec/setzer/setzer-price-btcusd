@@ -13,12 +13,14 @@ sources=(
 
 case $1 in
   binance) {
-    btc_usdt=$(setzer x-price "$1" btcusdt)
+    btc_usdt=$(setzer x-price "$1" btc:usdt)
+    #can't replace with internal usdt_usd model due to recursion
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
   bitfinex) {
     btc_usdt=$(setzer x-price "$1" btcusd)
+    #can't replace with internal usdt_usd model due to recursion
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
@@ -26,7 +28,7 @@ case $1 in
     setzer x-price "$1" $pair
   };;
   kraken) {
-    setzer x-price "$1" xbtusd
+    setzer x-price kraken xxbt:zusd
   };;
   upbit) {
     btc_krw=$(setzer x-price "$1" btckrw)

@@ -15,12 +15,12 @@ case $1 in
   };;
   gateio) {
     bnb_usdt=$(setzer x-price "$1" bnbusd)
-    usdt_usd=$(setzer x-price cmc usdtusd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
   };;
   hitbtc) {
     bnb_usdt=$(setzer x-price "$1" bnbusd)
-    usdt_usd=$(setzer x-price cmc usdtusd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$bnb_usdt * $usdt_usd")"
   };;
   *) {
