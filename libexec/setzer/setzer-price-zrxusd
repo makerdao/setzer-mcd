@@ -17,7 +17,7 @@ case $1 in
   };;
   bitfinex) {
     zrx_usdt=$(setzer x-price "$1" zrxusd)
-    usdt_usd=$(setzer x-price cmc usdtusd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$zrx_usdt * $usdt_usd")"
   };;
   coinbase) {

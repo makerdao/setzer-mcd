@@ -16,12 +16,12 @@ case $1 in
   };;
   bitfinex) {
     omg_usdt=$(setzer x-price "$1" omgusd)
-    usdt_usd=$(setzer x-price cmc usdt:usd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$omg_usdt * $usdt_usd")"
   };;
   huobi) {
     omg_usdt=$(setzer x-price "$1" omg:usdt)
-    usdt_usd=$(setzer x-price cmc usdt:usd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$omg_usdt * $usdt_usd")"
   };;
   upbit) {

@@ -18,7 +18,7 @@ case $1 in
   };;
   bitfinex) {
     eth_usdt=$(setzer x-price "$1" "$pair")
-    usdt_usd=$(setzer x-price cmc usdtusd)
+    usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$eth_usdt * $usdt_usd")"
   };;
   bitstamp|coinbase|gemini) {
