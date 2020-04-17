@@ -20,7 +20,7 @@ case $1 in
     setzer --format "$(setzer x-price "$1" repusd)"
   };;
   kraken) {
-    rep_eur="$(setzer x-price "$1" repeur)"
+    rep_eur="$(setzer x-price krakenv1 repeur)"
     eur_usd=$(setzer x-price fx eurusd)
     setzer --format "$(bc -l <<<"$rep_eur * $eur_usd")"
   };;

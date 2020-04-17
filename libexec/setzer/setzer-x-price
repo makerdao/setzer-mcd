@@ -11,7 +11,6 @@ else
   quote=${2#*:}
 fi
 
-# TODO - error handling
 case $src in
   binance) {
     json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${pair^^}")
@@ -38,7 +37,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e data -e "$ticker" -e quote -e USD -e price -u)"
   };;
   coinbase) {
-    json=$(curl -sS "https://api.gdax.com/products/${base^^}-${quote^^}/ticker")
+    json=$(curl -sS "https://api.pro.coinbase.com/products/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   cryptocompare) {
@@ -65,9 +64,18 @@ case $src in
     json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${pair,,}")
     setzer --format "$(jshon <<<"$json" -e tick -e bid -e 0)"
   };;
-  kraken) {
+  #I shit you not these Kraken mofos have 3 naming schemes they use at the same time #thanksobama
+  krakenv1) {
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
+  };;
+  krakenv2) {
+    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}X${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e result -e "X${base^^}X${quote^^}" -e c -e 0 -u)"
+  };;
+  krakenv3) {
+    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
   };;
   okex) {
     json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")

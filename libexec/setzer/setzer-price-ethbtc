@@ -11,8 +11,11 @@ sources=(
 )
 
 case $1 in
-  binance|coinbase|hitbtc|huobi|kraken|poloniex) {
+  binance|coinbase|hitbtc|huobi|poloniex) {
     setzer x-price "$1" ethbtc
+  };;
+  kraken) {
+    setzer x-price krakenv2 ethbtc 
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

@@ -21,8 +21,11 @@ case $1 in
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$eth_usdt * $usdt_usd")"
   };;
-  bitstamp|coinbase|gemini|kraken) {
+  bitstamp|coinbase|gemini) {
     setzer x-price "$1" "$pair"
+  };;
+  kraken) {
+    setzer x-price krakenv1 "$pair"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
