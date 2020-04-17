@@ -3,10 +3,10 @@ set -e
 pair=ethbtc
 sources=(
   binance
-  bitfinex
   coinbase
   hitbtc
   huobi
+  kraken
   poloniex
 )
 
