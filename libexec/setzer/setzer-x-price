@@ -64,16 +64,7 @@ case $src in
     json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e tick -e bid -e 0)"
   };;
-  #I shit you not these Kraken mofos have 3 naming schemes they use at the same time #thanksobama
-  krakenv1) {
-    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}Z${quote^^}")
-    setzer --format "$(jshon <<<"$json" -e result -e X"${base^^}"Z"${quote^^}" -e c -e 0 -u)"
-  };;
-  krakenv2) {
-    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=X${base^^}X${quote^^}")
-    setzer --format "$(jshon <<<"$json" -e result -e "X${base^^}X${quote^^}" -e c -e 0 -u)"
-  };;
-  krakenv3) {
+  kraken) {
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
   };;

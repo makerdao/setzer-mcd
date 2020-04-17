@@ -25,7 +25,7 @@ case $1 in
     setzer x-price "$1" "$pair"
   };;
   kraken) {
-    setzer x-price krakenv1 "$pair"
+    setzer x-price kraken xeth:zusd
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"

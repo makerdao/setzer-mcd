@@ -26,7 +26,7 @@ case $1 in
     setzer x-price "$1" $pair
   };;
   kraken) {
-    setzer x-price krakenv1 xbtusd
+    setzer x-price kraken xxbt:zusd
   };;
   upbit) {
     btc_krw=$(setzer x-price "$1" btckrw)
