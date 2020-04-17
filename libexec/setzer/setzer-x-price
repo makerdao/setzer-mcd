@@ -13,15 +13,15 @@ fi
 
 case $src in
   binance) {
-    json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${pair^^}")
+    json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   bitfinex) {
-    json=$(curl -sS "https://api.bitfinex.com/v2/ticker/t${pair^^}")
+    json=$(curl -sS "https://api.bitfinex.com/v2/ticker/t${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e 6)"
   };;
   bitstamp) {
-    json=$(curl -sS "https://www.bitstamp.net/api/v2/ticker/${pair,,}/")
+    json=$(curl -sS "https://www.bitstamp.net/api/v2/ticker/${base,,}${quote,,}/")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   bittrex) {
@@ -53,15 +53,15 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e 0 -e last -u)"
   };;
   gemini) {
-    json=$(curl -sS "https://api.gemini.com/v1/pubticker/${pair,,}")
+    json=$(curl -sS "https://api.gemini.com/v1/pubticker/${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   hitbtc) {
-    json=$(curl -sS "https://api.hitbtc.com/api/2/public/ticker/${pair^^}/")
+    json=$(curl -sS "https://api.hitbtc.com/api/2/public/ticker/${base^^}${quote^^}/")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   huobi) {
-    json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${pair,,}")
+    json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e tick -e bid -e 0)"
   };;
   #I shit you not these Kraken mofos have 3 naming schemes they use at the same time #thanksobama
