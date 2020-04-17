@@ -14,12 +14,14 @@ sources=(
 case $1 in
   binance) {
     btc_usdt=$(setzer x-price "$1" btc:usdt)
-    usdt_usd=$(setzer price usdtusd)
+    #can't replace with internal usdt_usd model due to recursion
+    usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
   bitfinex) {
     btc_usdt=$(setzer x-price "$1" btcusd)
-    usdt_usd=$(setzer price usdtusd)
+    #can't replace with internal usdt_usd model due to recursion
+    usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
   bitstamp|coinbase|gemini) {
