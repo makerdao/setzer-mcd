@@ -6,6 +6,7 @@ sources=(
   bittrex
   bitfinex
   coinbase
+  huobi
   okex
   upbit
 )
