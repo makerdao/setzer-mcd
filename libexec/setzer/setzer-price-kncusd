@@ -19,7 +19,7 @@ case $1 in
     setzer --format "$(setzer x-price "$1" kncusd)"
   };;
   kyber) {
-    knc_eth=$(setzer x-price "$1" 0xe41d2489571d322189246dafa5ebde1f4699f498)
+    knc_eth=$(setzer x-price "$1" 0xdd974d5c2e2928dea5f71b9825b8b646686bd200)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$knc_eth * $eth_usd")"
   };;
