@@ -44,6 +44,10 @@ case $src in
     json=$(curl -sS "https://min-api.cryptocompare.com/data/price?fsym=${base^^}&tsyms=${quote^^}")
     setzer --format "$(jshon <<<"$json" -e USD -u)"
   };;
+  ddex) {
+    json=$(curl -sS "https://api.ddex.io/v4/markets/${base^^}-${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e market -e lastPrice -u)"
+  };;
   fx) {
     json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
     setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
