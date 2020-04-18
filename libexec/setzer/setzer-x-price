@@ -44,6 +44,10 @@ case $src in
     json=$(curl -sS "https://min-api.cryptocompare.com/data/price?fsym=${base^^}&tsyms=${quote^^}")
     setzer --format "$(jshon <<<"$json" -e USD -u)"
   };;
+  ddex) {
+    json=$(curl -sS "https://api.ddex.io/v4/markets/${base^^}-${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e market -e lastPrice -u)"
+  };;
   fx) {
     json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
     setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
@@ -67,6 +71,10 @@ case $src in
   kraken) {
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
+  };;
+  kyber) {
+    json=$(curl -sS "https://api.kyber.network/buy_rate?id=${2}&qty=1")
+    setzer --format "$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)"
   };;
   okex) {
     json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")

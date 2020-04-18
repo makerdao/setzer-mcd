@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+pair=sntusd
+sources=(
+  binance
+  huobi
+  okex
+  upbit
+)
+
+case $1 in
+  binance) {
+    snt_btc=$(setzer x-price "$1" sntbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$snt_btc * $btc_usd")"
+  };;
+  huobi) {
+    snt_usdt=$(setzer x-price "$1" snt:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$snt_usdt * $usdt_usd")"
+  };;
+  okex) {
+    snt_usdt=$(setzer x-price "$1" snt:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$snt_usdt * $usdt_usd")"
+  };;
+  upbit) {
+    snt_krw=$(setzer x-price "$1" sntkrw)
+    krw_usd=$(setzer x-price fx krwusd)
+    setzer --format "$(bc -l <<<"$snt_krw * $krw_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
