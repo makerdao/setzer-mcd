@@ -6,6 +6,7 @@ sources=(
   bittrex
   bitfinex
   coinbase
+  okex
   upbit
 )
 
@@ -22,6 +23,16 @@ case $1 in
   };;
   coinbase) {
     setzer --format "$(setzer x-price "$1" zrxusd)"
+  };;
+  huobi) {
+    zrx_usdt=$(setzer x-price "$1" zrx:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$zrx_usdt * $usdt_usd")"
+  };;
+  okex) {
+    zrx_btc=$(setzer x-price "$1" zrxbtc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$zrx_btc * $btc_usd")"
   };;
   upbit) {
     zrx_krw=$(setzer x-price "$1" zrxkrw)
