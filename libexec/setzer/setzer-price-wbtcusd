@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-pair=kncusd
+pair=wbtcusd
 sources=(
   ddex
   kyber
@@ -13,7 +13,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$wbtc_usdt * $usdt_usd")"
   };;
   kyber) {
-    knc_eth=$(setzer x-price "$1" 0xe41d2489571d322189246dafa5ebde1f4699f498)
+    knc_eth=$(setzer x-price "$1" 0x2260fac5e5542a773aa44fbcfedf7c193bc2c599)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$knc_eth * $eth_usd")"
   };;
