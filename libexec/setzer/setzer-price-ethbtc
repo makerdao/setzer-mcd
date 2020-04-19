@@ -3,15 +3,15 @@ set -e
 pair=ethbtc
 sources=(
   binance
+  bitfinex
   coinbase
-  hitbtc
   huobi
   kraken
   poloniex
 )
 
 case $1 in
-  binance|coinbase|hitbtc|huobi|poloniex) {
+  binance|bitfinex|coinbase|huobi|poloniex) {
     setzer x-price "$1" ethbtc
   };;
   kraken) {
