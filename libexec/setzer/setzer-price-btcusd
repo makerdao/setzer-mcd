@@ -5,10 +5,10 @@ sources=(
   binance
   bitfinex
   bitstamp
+  bittrex
   coinbase
   gemini
   kraken
-  upbit
 )
 
 case $1 in
@@ -24,16 +24,11 @@ case $1 in
     usdt_usd=$(setzer x-price cmc usdtusd)
     setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
   };;
-  bitstamp|coinbase|gemini) {
+  bitstamp|bittrex|coinbase|gemini) {
     setzer x-price "$1" $pair
   };;
   kraken) {
     setzer x-price kraken xxbt:zusd
-  };;
-  upbit) {
-    btc_krw=$(setzer x-price "$1" btckrw)
-    krw_usd=$(setzer x-price fx krwusd)
-    setzer --format "$(bc -l <<<"$btc_krw * $krw_usd")"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
