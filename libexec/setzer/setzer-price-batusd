@@ -15,9 +15,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$bat_btc * $btc_usd")"
   };;
   coinbase) {
-    bat_usdc=$(setzer x-price "$1" bat:usdc)
-    usdc_usd=$(setzer price usdcusd)
-    setzer --format "$(bc -l <<<"$bat_usdc * $usdc_usd")"
+    setzer x-price "$1" bat:usdc
   };;
   upbit) {
     bat_krw=$(setzer x-price "$1" batkrw)
