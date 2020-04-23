@@ -2,8 +2,6 @@
 set -e
 pair=btcusd
 sources=(
-  binance
-  bitfinex
   bitstamp
   bittrex
   coinbase
@@ -12,18 +10,6 @@ sources=(
 )
 
 case $1 in
-  binance) {
-    btc_usdt=$(setzer x-price "$1" btc:usdt)
-    #can't replace with internal usdt_usd model due to recursion
-    usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
-  };;
-  bitfinex) {
-    btc_usdt=$(setzer x-price "$1" btcusd)
-    #can't replace with internal usdt_usd model due to recursion
-    usdt_usd=$(setzer x-price cmc usdtusd)
-    setzer --format "$(bc -l <<<"$btc_usdt * $usdt_usd")"
-  };;
   bitstamp|bittrex|coinbase|gemini) {
     setzer x-price "$1" $pair
   };;
