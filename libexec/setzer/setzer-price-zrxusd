@@ -3,40 +3,23 @@ set -e
 pair=zrxusd
 sources=(
   binance
-  bittrex
   bitfinex
   coinbase
-  huobi
   okex
   upbit
 )
 
 case $1 in
-  binance|bittrex) {
-    zrx_btc=$(setzer x-price "$1" zrxbtc)
+  binance|okex) {
+    zrx_btc=$(setzer x-price "$1" zrx:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$zrx_btc * $btc_usd")"
   };;
-  bitfinex) {
-    zrx_usdt=$(setzer x-price "$1" zrxusd)
-    usdt_usd=$(setzer price usdtusd)
-    setzer --format "$(bc -l <<<"$zrx_usdt * $usdt_usd")"
-  };;
-  coinbase) {
-    setzer --format "$(setzer x-price "$1" zrxusd)"
-  };;
-  huobi) {
-    zrx_usdt=$(setzer x-price "$1" zrx:usdt)
-    usdt_usd=$(setzer price usdtusd)
-    setzer --format "$(bc -l <<<"$zrx_usdt * $usdt_usd")"
-  };;
-  okex) {
-    zrx_btc=$(setzer x-price "$1" zrxbtc)
-    btc_usd=$(setzer price btcusd)
-    setzer --format "$(bc -l <<<"$zrx_btc * $btc_usd")"
+  bitfinex|coinbase) {
+    setzer x-price "$1" zrx:usd
   };;
   upbit) {
-    zrx_krw=$(setzer x-price "$1" zrxkrw)
+    zrx_krw=$(setzer x-price "$1" zrx:krw)
     krw_usd=$(setzer x-price fx krwusd)
     setzer --format "$(bc -l <<<"$zrx_krw * $krw_usd")"
   };;

@@ -4,33 +4,28 @@ pair=kncusd
 sources=(
   binance
   coinbase
+  huobi
   kyber
-  okex
   upbit
 )
 
 case $1 in
-  binance) {
-    knc_btc=$(setzer x-price "$1" kncbtc)
+  binance|huobi) {
+    knc_btc=$(setzer x-price "$1" knc:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$knc_btc * $btc_usd")"
   };;
   coinbase) {
-    setzer --format "$(setzer x-price "$1" kncusd)"
+    setzer --format "$(setzer x-price "$1" knc:usd)"
   };;
   kyber) {
     knc_eth=$(setzer x-price "$1" 0xdd974d5c2e2928dea5f71b9825b8b646686bd200)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$knc_eth * $eth_usd")"
   };;
-  okex) {
-    knc_usdt=$(setzer x-price "$1" knc:usdt)
-    usdt_usd=$(setzer price usdtusd)
-    setzer --format "$(bc -l <<<"$knc_usdt * $usdt_usd")"
-  };;
   upbit) {
-    knc_krw=$(setzer x-price "$1" knckrw)
-    krw_usd=$(setzer x-price fx krwusd)
+    knc_krw=$(setzer x-price "$1" knc:krw)
+    krw_usd=$(setzer x-price fx krw:usd)
     setzer --format "$(bc -l <<<"$knc_krw * $krw_usd")"
   };;
   *) {

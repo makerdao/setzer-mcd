@@ -4,15 +4,26 @@ pair=mana:usd
 sources=(
   binance
   bittrex
+  coinbase
   huobi
   upbit
 )
 
 case $1 in
-  binance|bittrex|huobi) {
+  binance|bittrex) {
     mana_btc=$(setzer x-price "$1" mana:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$mana_btc * $btc_usd")"
+  };;
+  coinbase) {
+    mana_usdc=$(setzer x-price "$1" mana:usdc)
+    usdc_usd=$(setzer price usdcusd)
+    setzer --format "$(bc -l <<<"$mana_usdc * $usdc_usd")"
+  };;
+  huobi) {
+    mana_usdt=$(setzer x-price "$1" mana:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$mana_usdt *$usdt_usd")"
   };;
   upbit) {
     mana_krw=$(setzer x-price "$1" mana:krw)
