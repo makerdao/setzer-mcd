@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+pair=lendusd
+sources=(
+  binance
+  coinbase
+  huobi
+  kyber
+  upbit
+)
+
+case $1 in
+  binance) {
+    lend_btc=$(setzer x-price "$1" lend:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$lend_btc * $btc_usd")"
+  };;
+  kyber) {
+    lend_eth=$(setzer x-price "$1" 0x80fB784B7eD66730e8b1DBd9820aFD29931aab03)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$lend_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
