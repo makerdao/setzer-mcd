@@ -3,10 +3,7 @@ set -e
 pair=lendusd
 sources=(
   binance
-  coinbase
-  huobi
   kyber
-  upbit
 )
 
 case $1 in
