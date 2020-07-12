@@ -93,6 +93,7 @@ case $src in
       COMPETH) { echo "0xcffdded873554f362ac02f8fb1f02e5ada10516f";  };;
     esac)
     json=$(curl \
+      -sS \
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token1Price } }", "variables": { "id": "'"$id"'" } }' \
