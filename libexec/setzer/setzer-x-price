@@ -84,6 +84,17 @@ case $src in
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
   };;
+  uniswap) {
+    id=$(case "${pair^^}" in
+      COMPETH) { echo "0xcffdded873554f362ac02f8fb1f02e5ada10516f";  };;
+    esac)
+    json=$(curl \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token1Price } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2)
+    setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e token1Price -u)"
+  };;
   upbit) {
     json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")
     setzer --format "$(jshon <<<"$json" -e 0 -e trade_price)"
