@@ -72,6 +72,10 @@ case $src in
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
   };;
+  kucoin) {
+    json=$(curl -sS "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=${base^^}-${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e price -u)"
+  };;
   kyber) {
     json=$(curl -sS "https://api.kyber.network/buy_rate?id=${2}&qty=1")
     setzer --format "$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)"
