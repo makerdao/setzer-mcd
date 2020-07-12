@@ -19,9 +19,9 @@ case $1 in
     setzer x-price "$1" comp:usd
   };;
   uniswap) {
-    link_eth=$(setzer x-price "$1" link:eth)
+    comp_eth=$(setzer x-price "$1" comp:eth)
     eth_usd=$(setzer price ethusd)
-    setzer --format "$(bc -l <<<"$link_eth * $eth_usd")"
+    setzer --format "$(bc -l <<<"$comp_eth * $eth_usd")"
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
