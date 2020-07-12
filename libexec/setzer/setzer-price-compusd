@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+pair=compusd
+sources=(
+  binance
+  coinbase
+  kucoin
+  okex
+  uniswap
+)
+
+case $1 in
+  binance|okex|kucoin) {
+    comp_usdt=$(setzer x-price "$1" comp:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$comp_usdt * $usdt_usd")"
+  };;
+  coinbase) {
+    setzer x-price "$1" comp:usd
+  };;
+  uniswap) {
+    link_eth=$(setzer x-price "$1" link:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$link_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
