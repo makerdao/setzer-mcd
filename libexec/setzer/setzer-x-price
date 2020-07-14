@@ -72,6 +72,10 @@ case $src in
     json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
   };;
+  kucoin) {
+    json=$(curl -sS "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=${base^^}-${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e price -u)"
+  };;
   kyber) {
     json=$(curl -sS "https://api.kyber.network/buy_rate?id=${2}&qty=1")
     setzer --format "$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)"
@@ -83,6 +87,18 @@ case $src in
   poloniex) {
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
+  };;
+  uniswap) {
+    id=$(case "${pair^^}" in
+      COMPETH) { echo "0xcffdded873554f362ac02f8fb1f02e5ada10516f";  };;
+    esac)
+    json=$(curl \
+      -sS \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token1Price } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2)
+    setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e token1Price -u)"
   };;
   upbit) {
     json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")
