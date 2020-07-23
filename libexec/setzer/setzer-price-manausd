@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-pair=mana:usd
+pair=manausd
 sources=(
   binance
   bittrex

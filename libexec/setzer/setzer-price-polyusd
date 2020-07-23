@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-pair=poly:usd
+pair=polyusd
 sources=(
   binance
   cmc
