@@ -80,6 +80,13 @@ case $src in
     json=$(curl -sS "https://api.kyber.network/buy_rate?id=${2}&qty=1")
     setzer --format "$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)"
   };;
+  loopring) {
+    id=$(case "${pair^^}" in
+      LRCETH) { echo "LRC-ETH"; };;
+    esac)
+    json=$(curl -sS "https://api.loopring.io/api/v2/overview")
+    setzer --format "$(jshon <<<"$json" -e data -e "$id" -e last -u)"
+  };;
   okex) {
     json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e last -u)"
@@ -90,7 +97,8 @@ case $src in
   };;
   uniswap) {
     id=$(case "${pair^^}" in
-      COMPETH) { echo "0xcffdded873554f362ac02f8fb1f02e5ada10516f";  };;
+      COMPETH) { echo "0xcffdded873554f362ac02f8fb1f02e5ada10516f"; };;
+      LRCETH) { echo "0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70"; };;
     esac)
     json=$(curl \
       -sS \
