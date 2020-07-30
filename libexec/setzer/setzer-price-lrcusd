@@ -4,7 +4,6 @@ pair=lrcusd
 sources=(
   binance
   gateio
-  kyber
   loopring
   okex
   uniswap
@@ -21,7 +20,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$lrc_usdt * $usdt_usd")"
   };;
-  kyber|loopring|uniswap) {
+  loopring|uniswap) {
     lrc_eth=$(setzer x-price "$1" lrc:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$lrc_eth * $eth_usd")"
