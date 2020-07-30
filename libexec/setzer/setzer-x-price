@@ -53,7 +53,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
   };;
   gateio) {
-    json=$(curl -sS "https://fx-api.gateio.ws/api/v4/futures/tickers?contract=${base^^}_${quote^^}")
+    json=$(curl -sS "https://fx-api.gateio.ws/api/v4/spot/tickers?currency_pair=${base^^}_${quote^^}")
     setzer --format "$(jshon <<<"$json" -e 0 -e last -u)"
   };;
   gemini) {
