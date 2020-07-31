@@ -5,17 +5,28 @@ sources=(
   binance
   bittrex
   coinbase
+  gemini
+  kraken
+  uniswap
   upbit
 )
 
 case $1 in
-  binance|bittrex) {
+  binance|bittrex|kraken) {
     bat_btc=$(setzer x-price "$1" batbtc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$bat_btc * $btc_usd")"
   };;
   coinbase) {
     setzer x-price "$1" bat:usdc
+  };;
+  gemini) {
+    setzer x-price "$1" batusd
+  };;
+  uniswap) {
+    bat_eth=$(setzer x-price "$1" bateth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$bat_eth * $eth_usd")"
   };;
   upbit) {
     bat_krw=$(setzer x-price "$1" batkrw)
