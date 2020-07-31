@@ -3,7 +3,9 @@ set -e
 pair=compusd
 sources=(
   binance
+  bittrex
   coinbase
+  ftx
   kucoin
   okex
   uniswap
@@ -15,7 +17,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$comp_usdt * $usdt_usd")"
   };;
-  coinbase) {
+  bittrex|coinbase|ftx) {
     setzer x-price "$1" comp:usd
   };;
   uniswap) {
