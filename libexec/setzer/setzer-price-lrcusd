@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+pair=lrcusd
+sources=(
+  binance
+  gateio
+  loopring
+  okex
+  uniswap
+)
+
+case $1 in
+  binance) {
+    lrc_btc=$(setzer x-price "$1" lrc:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$lrc_btc * $btc_usd")"
+  };;
+  gateio|okex) {
+    lrc_usdt=$(setzer x-price "$1" lrc:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$lrc_usdt * $usdt_usd")"
+  };;
+  loopring|uniswap) {
+    lrc_eth=$(setzer x-price "$1" lrc:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$lrc_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
