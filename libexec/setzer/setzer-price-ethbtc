@@ -5,13 +5,14 @@ sources=(
   binance
   bitfinex
   coinbase
+  ftx
   huobi
   kraken
-  poloniex
+  kucoin
 )
 
 case $1 in
-  binance|bitfinex|coinbase|huobi|poloniex) {
+  binance|bitfinex|coinbase|ftx|huobi|kucoin) {
     setzer x-price "$1" ethbtc
   };;
   kraken) {
