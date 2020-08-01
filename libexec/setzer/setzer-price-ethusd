@@ -6,6 +6,7 @@ sources=(
   bitfinex
   bitstamp
   coinbase
+  ftx
   gemini
   kraken
 )
@@ -21,7 +22,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$eth_usdt * $usdt_usd")"
   };;
-  bitstamp|coinbase|gemini) {
+  bitstamp|coinbase|ftx|gemini) {
     setzer x-price "$1" "$pair"
   };;
   kraken) {
