@@ -22,7 +22,7 @@ case $1 in
   ftx|huobi) {
     eth_usdt=$(setzer x-price "$1" eth:usdt)
     eth_usd=$(setzer price ethusd)
-    setzer --format "$(bc -l <<<"$eth_usdt / $eth_usd")"
+    setzer --format "$(bc -l <<<"$eth_usd / $eth_usdt")"
   };;
   kraken) {
     setzer x-price kraken usdt:zusd
