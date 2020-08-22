@@ -81,8 +81,8 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e data -e price -u)"
   };;
   kyber) {
-    json=$(curl -sS "https://api.kyber.network/buy_rate?id=${2}&qty=1")
-    setzer --format "$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)"
+    json=$(curl -sS "https://api.kyber.network/change24h")
+    setzer --format "$(jshon <<<"$json" -e "${quote^^}_${base^^}" -e rate_eth_now -u)"
   };;
   loopring) {
     id=$(case "${pair^^}" in
