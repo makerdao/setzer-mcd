@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 cat <<.
-setzer-mcd 0.2.8
+setzer-mcd 0.2.9
 .
