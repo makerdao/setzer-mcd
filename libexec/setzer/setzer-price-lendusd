@@ -13,7 +13,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$lend_btc * $btc_usd")"
   };;
   kyber) {
-    lend_eth=$(setzer x-price "$1" 0x80fB784B7eD66730e8b1DBd9820aFD29931aab03)
+    lend_eth=$(setzer x-price "$1" lend:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$lend_eth * $eth_usd")"
   };;
