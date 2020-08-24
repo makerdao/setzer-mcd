@@ -13,7 +13,7 @@ case $1 in
     setzer --format "$(bc -l <<<"$dgx_usdt * $usdt_usd")"
   };;
   kyber) {
-    dgx_eth=$(seth x-price "$1" dgx:eth)
+    dgx_eth=$(setzer x-price "$1" dgx:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$dgx_eth * $eth_usd")"
   };;
