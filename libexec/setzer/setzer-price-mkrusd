@@ -10,24 +10,22 @@ sources=(
 
 case $1 in
   bitfinex) {
-    mkr_eth=$(setzer x-price "$1" mkreth)
+    mkr_eth=$(setzer x-price "$1" mkr:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$mkr_eth * $eth_usd")"
   };;
   hitbtc) {
-    mkr_btc=$(setzer x-price "$1" mkrbtc)
+    mkr_btc=$(setzer x-price "$1" mkr:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$mkr_btc * $btc_usd")"
   };;
   kyber) {
-    json=$(curl -sS "https://api.kyber.network/buy_rate?id=0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2&qty=1.0")
-    eth=$(jshon <<<"$json" -e data -e 0 -e src_qty -e 0 -u)
-    mkr=$(jshon <<<"$json" -e data -e 0 -e dst_qty -e 0 -u)
+    mkr_eth=$(setzer x-price "$1" mkr:eth)
     eth_usd=$(setzer price ethusd)
-    setzer --format "$(bc -l <<<"$eth / $mkr * $eth_usd")"
+    setzer --format "$(bc -l <<<"$mkr_eth * $eth_usd")"
   };;
   okex) {
-    mkr_btc=$(setzer x-price "$1" mkrbtc)
+    mkr_btc=$(setzer x-price "$1" mkr:btc)
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$mkr_btc * $btc_usd")"
   };;
