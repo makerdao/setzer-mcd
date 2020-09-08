@@ -4,6 +4,7 @@ pair=linkusd
 sources=(
   binance
   coinbase
+  ftx
   gemini
   huobi
   kraken
@@ -15,19 +16,13 @@ case $1 in
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$link_btc * $btc_usd")"
   };;
-  coinbase) {
-    setzer x-price "$1" link:usd
-  };;
-  gemini) {
+  coinbase|ftx|gemini|kraken) {
     setzer x-price "$1" link:usd
   };;
   huobi) {
     link_usdt=$(setzer x-price "$1" link:usdt)
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$link_usdt * $usdt_usd")"
-  };;
-  kraken) {
-    setzer x-price kraken link:usd
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
