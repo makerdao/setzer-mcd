@@ -109,6 +109,10 @@ case $src in
         id="0xf49c43ae0faf37217bdcb00df478cf793edd6687"
         select="token0Price"
       };;
+      LENDETH) {
+        id="0xab3f9bf1d81ddb224a2014e98b238638824bcf20"
+        select="token1Price"
+      };;
       LRCETH) {
         id="0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70"
         select="token1Price"
