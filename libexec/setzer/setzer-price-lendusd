@@ -3,7 +3,10 @@ set -e
 pair=lendusd
 sources=(
   binance
+  huobi
   kyber
+  okex
+  uniswap
 )
 
 case $1 in
@@ -12,7 +15,17 @@ case $1 in
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$lend_btc * $btc_usd")"
   };;
+  huobi|okex) {
+    lend_usdt=$(setzer x-price "$1" lend:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$lend_usdt * $usdt_usd")"
+  };; 
   kyber) {
+    lend_eth=$(setzer x-price "$1" lend:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$lend_eth * $eth_usd")"
+  };;
+  uniswap) {
     lend_eth=$(setzer x-price "$1" lend:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$lend_eth * $eth_usd")"
