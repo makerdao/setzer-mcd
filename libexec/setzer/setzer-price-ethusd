@@ -3,11 +3,12 @@ set -e
 pair=ethusd
 sources=(
   binance
-  bitfinex
   bitstamp
   coinbase
+  ftx
   gemini
   kraken
+  uniswap
 )
 
 case $1 in
@@ -16,16 +17,14 @@ case $1 in
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$eth_btc * $btc_usd")"
   };;
-  bitfinex) {
-    eth_usdt=$(setzer x-price "$1" "$pair")
-    usdt_usd=$(setzer price usdtusd)
-    setzer --format "$(bc -l <<<"$eth_usdt * $usdt_usd")"
-  };;
-  bitstamp|coinbase|gemini) {
+  bitstamp|coinbase|ftx|gemini) {
     setzer x-price "$1" "$pair"
   };;
   kraken) {
     setzer x-price kraken xeth:zusd
+  };;
+  uniswap) {
+    setzer x-price "$1" ethusdc
   };;
   *) {
     setzer --price-commands "-$1-" $pair "${sources[@]}"
