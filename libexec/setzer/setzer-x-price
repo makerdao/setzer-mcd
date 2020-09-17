@@ -24,6 +24,10 @@ case $src in
     json=$(curl -sS "https://www.bitstamp.net/api/v2/ticker/${base,,}${quote,,}/")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
+  bitthumb) {
+    json=$(curl -sS "https://global-openapi.bithumb.pro/openapi/v1/spot/ticker?symbol=${base^^}-${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e 0 -e c -u)"
+  };;
   bittrex) {
     json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=${quote^^}-${base^^}")
     setzer --format "$(jshon <<<"$json" -e result -e Last -u)"
@@ -119,6 +123,10 @@ case $src in
       };;
       LRCETH) {
         id="0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70"
+        select="token1Price"
+      };;
+      PAXGETH) {
+        id="0x9c4fe5ffd9a9fc5678cfbd93aa2d4fd684b67c4c"
         select="token1Price"
       };;
       YFIETH) {

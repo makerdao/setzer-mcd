@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+pair=paxgusd
+sources=(
+  binance
+  bitthumb
+  gemini
+  kraken
+  uniswap
+)
+
+case $1 in
+  binance|bitthumb) {
+    paxg_usdt=$(setzer x-price "$1" paxg:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$paxg_usdt * $usdt_usd")"
+  };;
+  gemini) {
+    setzer x-price "$1" paxg:usd
+  };;
+  kraken) {
+    setzer x-price kraken paxg:usd
+  };;
+  uniswap) {
+    paxg_eth=$(setzer x-price "$1" paxg:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$paxg_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
