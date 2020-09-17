@@ -3,7 +3,7 @@ set -e
 pair=paxgusd
 sources=(
   binance
-  bitthump
+  bitthumb
   gemini
   kraken
   uniswap
@@ -19,7 +19,7 @@ case $1 in
     setzer x-price "$1" paxg:usd
   };;
   kraken) {
-    setzer x-price kraken xpaxg:zusd
+    setzer x-price kraken paxg:usd
   };;
   uniswap) {
     paxg_eth=$(setzer x-price "$1" paxg:eth)
