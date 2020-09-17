@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-pair=linkusd
+pair=yfiusd
 sources=(
   binance
   coinbase
