@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+pair=yfiusd
+sources=(
+  binance
+  coinbase
+  ftx
+  huobi
+  uniswap
+)
+
+case $1 in
+  binance|huobi) {
+    yfi_usdt=$(setzer x-price "$1" yfi:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$yfi_usdt * $usdt_usd")"
+  };;
+  coinbase|ftx) {
+    setzer x-price "$1" yfi:usd
+  };;
+  uniswap) {
+    yfi_eth=$(setzer x-price "$1" yfi:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$yfi_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
