@@ -121,6 +121,10 @@ case $src in
         id="0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70"
         select="token1Price"
       };;
+      YFIETH) {
+        id="0x2fdbadf3c4d5a8666bc06645b8358ab803996e28"
+        select="token1Price"
+      };;
     esac
     json=$(curl \
       -sS \
