@@ -105,6 +105,10 @@ case $src in
   };;
   uniswap) {
     case "${pair^^}" in
+      BALETH) {
+        id="0xa70d458a4d9bc0e6571565faee18a48da5c0d593"
+        select="token1Price"
+      };;
       COMPETH) { 
         id="0xcffdded873554f362ac02f8fb1f02e5ada10516f"
         select="token1Price" 
