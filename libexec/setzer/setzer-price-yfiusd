@@ -5,6 +5,7 @@ sources=(
   binance
   coinbase
   ftx
+  gemini
   huobi
   uniswap
 )
@@ -15,7 +16,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$yfi_usdt * $usdt_usd")"
   };;
-  coinbase|ftx) {
+  coinbase|ft|gemini) {
     setzer x-price "$1" yfi:usd
   };;
   uniswap) {
