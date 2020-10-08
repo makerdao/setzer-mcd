@@ -12,6 +12,20 @@ else
 fi
 
 case $src in
+  balancer) {
+    case "${pair^^}" in
+      BALUSD) {
+        id="0xba100000625a3754423978a60c9317c58a424e3d"
+      };;
+    esac
+    json=$(curl \
+      -sS \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { tokenPrices(where: { id: $id }) { symbol price poolLiquidity } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/balancer-labs/balancer)
+    setzer --format "$(jshon <<<"$json" -e data -e tokenPrices -e 0 -e price -u)"
+  };;
   binance) {
     json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e price -u)"
