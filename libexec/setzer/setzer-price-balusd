@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+pair=balusd
+sources=(
+  balancer
+  binance
+  coinbase
+  okex
+  huobi
+  uniswap
+)
+
+case $1 in
+  balancer|coinbase) {
+    setzer x-price "$1" bal:usd
+  };;
+  binance) {
+    bal_btc=$(setzer x-price "$1" bal:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$bal_btc * $btc_usd")"
+  };;
+  huobi|okex) {
+    bal_usdt=$(setzer x-price "$1" bal:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$bal_usdt * $usdt_usd")"
+  };;
+  uniswap) {
+    bal_eth=$(setzer x-price "$1" bal:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$bal_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
