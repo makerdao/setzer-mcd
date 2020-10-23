@@ -17,6 +17,9 @@ case $src in
       BALUSD) {
         id="0xba100000625a3754423978a60c9317c58a424e3d"
       };;
+      AAVEUSD) {
+        id="0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
+      };;
     esac
     json=$(curl \
       -sS \
@@ -119,6 +122,10 @@ case $src in
   };;
   uniswap) {
     case "${pair^^}" in
+      AAVEETH) {
+        id="0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f"
+        select="token1Price"
+      };;
       BALETH) {
         id="0xa70d458a4d9bc0e6571565faee18a48da5c0d593"
         select="token1Price"
@@ -134,10 +141,6 @@ case $src in
       KNCETH) {
         id="0xf49c43ae0faf37217bdcb00df478cf793edd6687"
         select="token0Price"
-      };;
-      LENDETH) {
-        id="0xab3f9bf1d81ddb224a2014e98b238638824bcf20"
-        select="token1Price"
       };;
       LRCETH) {
         id="0x8878df9e1a7c87dcbf6d3999d997f262c05d8c70"
