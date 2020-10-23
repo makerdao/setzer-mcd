@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+pair=aaveusd
+sources=(
+  balancer
+  binance
+  gemini
+  huobi
+  okex
+  uniswap
+)
+
+case $1 in
+  balancer|gemini) {
+    setzer x-price "$1" aave:usd
+  };;
+  binance) {
+    aave_btc=$(setzer x-price "$1" aave:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$aave_btc * $btc_usd")"
+  };;
+  huobi|okex) {
+    aave_usdt=$(setzer x-price "$1" aave:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$aave_usdt * $usdt_usd")"
+  };; 
+  uniswap) {
+    aave_eth=$(setzer x-price "$1" aave:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$aave_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
