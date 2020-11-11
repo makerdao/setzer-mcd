@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+pair=uniusd
+sources=(
+  binance
+  coinbase
+  ftx
+  huobi
+  okex
+  uniswap
+)
+
+case $1 in
+  binance) {
+    uni_btc=$(setzer x-price "$1" uni:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$uni_btc * $btc_usd")"
+  };;
+  coinbase|ftx) {
+    setzer x-price "$1" uni:usd
+  };;
+  huobi|okex) {
+    uni_usdt=$(setzer x-price "$1" uni:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$uni_usdt * $usdt_usd")"
+  };;
+  uniswap) {
+    uni_eth=$(setzer x-price "$1" uni:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$uni_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
