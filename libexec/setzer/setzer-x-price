@@ -20,6 +20,9 @@ case $src in
       AAVEUSD) {
         id="0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
       };;
+      WNXMUSD) {
+        id="0x0d438f3b5175bebc262bf23753c1e53d03432bde"
+      };;
     esac
     json=$(curl \
       -sS \
@@ -162,6 +165,14 @@ case $src in
         id="0x43ae24960e5534731fc831386c07755a2dc33d47"
         select="token1Price"
       };;
+      CRVETH) {
+        id="0x3da1313ae46132a397d90d95b1424a9a7e3e0fce"
+        select="token0Price"
+      };;
+      WNXMETH) {
+        id="0x23bff8ca20aac06efdf23cee3b8ae296a30dfd27"
+        select="token1Price"
+      }
     esac
     json=$(curl \
       -sS \
@@ -176,6 +187,10 @@ case $src in
       SNXETH) {
         id="0xa1d7b2d891e3a1f9ef4bbc5be20630c2feb1c470"
         select="token1Price"
+      };;
+      CRVETH) {
+        id="0x58dc5a51fe44589beb22e8ce67720b5bc5378009"
+        select="token0Price"
       };;
     esac
     json=$(curl \
