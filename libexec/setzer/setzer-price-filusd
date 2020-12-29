@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+pair=filusd
+sources=(
+  binance
+  coinbase
+  gemini
+  huobi
+  kraken
+  okex
+)
+
+case $1 in
+  kraken|gemini|coinbase) {
+    setzer x-price "$1" fil:usd
+  };;
+  huobi|binance|okex) {
+    fil_usdt=$(setzer x-price "$1" fil:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$fil_usdt * $usdt_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
