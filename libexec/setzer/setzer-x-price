@@ -123,6 +123,25 @@ case $src in
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
   };;
+  sushiswap) {
+    case "${pair^^}" in
+      SNXETH) {
+        id="0xa1d7b2d891e3a1f9ef4bbc5be20630c2feb1c470"
+        select="token1Price"
+      };;
+      CRVETH) {
+        id="0x58dc5a51fe44589beb22e8ce67720b5bc5378009"
+        select="token0Price"
+      };;
+    esac
+    json=$(curl \
+      -sS \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
+    setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
+  };;
   uniswap) {
     case "${pair^^}" in
       AAVEETH) {
@@ -180,25 +199,6 @@ case $src in
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
       https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2)
-    setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
-  };;
-  sushiswap) {
-    case "${pair^^}" in
-      SNXETH) {
-        id="0xa1d7b2d891e3a1f9ef4bbc5be20630c2feb1c470"
-        select="token1Price"
-      };;
-      CRVETH) {
-        id="0x58dc5a51fe44589beb22e8ce67720b5bc5378009"
-        select="token0Price"
-      };;
-    esac
-    json=$(curl \
-      -sS \
-      -X POST \
-      -H "Content-Type: application/json" \
-      --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
   };;
   upbit) {
