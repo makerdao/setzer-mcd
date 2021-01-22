@@ -3,10 +3,10 @@ set -e
 pair=dotusd
 sources=(
   binance
-  kraken
-  huobi
   bitfinex
+  huobi
   okex
+  kraken
   kucoin
 )
 

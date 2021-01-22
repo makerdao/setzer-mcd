@@ -5,8 +5,8 @@ sources=(
   balancer
   binance
   coinbase
-  okex
   huobi
+  okex
   uniswap
 )
 

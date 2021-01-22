@@ -4,10 +4,10 @@ pair=zecusd
 sources=(
   binance
   bitfinex
-  kraken
   coinbase
-  okex
   gemini
+  kraken
+  okex
 )
 
 case $1 in

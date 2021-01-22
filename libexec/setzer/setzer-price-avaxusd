@@ -3,10 +3,10 @@ set -e
 pair=avaxusd
 sources=(
   binance
-  okex
-  huobi
-  gateio
   bitfinex
+  gateio
+  huobi
+  okex
 )
 
 case $1 in

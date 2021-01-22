@@ -3,11 +3,11 @@ set -e
 pair=xtzusd
 sources=(
   binance
+  bitfinex
   coinbase
   kraken
+  hitbtc
   okex
-  bitfinex
-  bitfinex
 )
 
 case $1 in

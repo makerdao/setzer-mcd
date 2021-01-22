@@ -3,11 +3,11 @@ set -e
 pair=xrpusd
 sources=(
   binance
-  okex
   bitfinex
+  hitbtc
   huobi
   kraken
-  hitbtc
+  okex
 )
 
 case $1 in

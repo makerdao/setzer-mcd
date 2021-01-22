@@ -2,11 +2,11 @@
 set -e
 pair=wnxmusd
 sources=(
-  binance
-  uniswap
   balancer
-  huobi
+  binance
   gateio
+  huobi
+  uniswap
 )
 
 case $1 in

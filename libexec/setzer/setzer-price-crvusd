@@ -3,11 +3,11 @@ set -e
 pair=crvusd
 sources=(
   binance
+  gemini
   huobi
   kraken
-  uniswap
-  gemini
   sushiswap
+  uniswap
 )
 
 case $1 in

@@ -3,11 +3,11 @@ set -e
 pair=snxusd
 sources=(
   binance
-  uniswap
-  sushiswap
+  coinbase
   huobi
   okex
-  coinbase
+  sushiswap
+  uniswap
 )
 
 case $1 in
