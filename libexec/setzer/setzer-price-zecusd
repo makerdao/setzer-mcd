@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+pair=zecusd
+sources=(
+  binance
+  bitfinex
+  coinbase
+  gemini
+  kraken
+  okex
+)
+
+case $1 in
+  bitfinex|gemini|coinbase) {
+    setzer x-price "$1" zec:usd
+  };;
+  binance|okex) {
+    zec_usdt=$(setzer x-price "$1" zec:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$zec_usdt * $usdt_usd")"
+  };;
+  kraken) {
+    setzer x-price kraken xzec:zusd
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

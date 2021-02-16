@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -e
+pair=crvusd
+sources=(
+  binance
+  gemini
+  huobi
+  kraken
+  sushiswap
+  uniswap
+)
+
+case $1 in
+  gemini) {
+    setzer x-price "$1" crv:usd
+  };;
+  binance|huobi) {
+    crv_usdt=$(setzer x-price "$1" crv:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$crv_usdt * $usdt_usd")"
+  };;
+  kraken) {
+    setzer x-price kraken crv:usd
+  };;
+  uniswap|sushiswap) {
+    crv_eth=$(setzer x-price "$1" crv:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$crv_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

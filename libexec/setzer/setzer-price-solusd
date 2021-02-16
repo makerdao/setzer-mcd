@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -e
+pair=solusd
+sources=(
+  binance
+  bitthumb
+  gateio
+  huobi
+  okex
+)
+
+case $1 in
+  gateio|binance|okex) {
+    sol_usdt=$(setzer x-price "$1" sol:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$sol_usdt * $usdt_usd")"
+  };;
+  huobi|bitthumb) {
+    sol_btc=$(setzer x-price "$1" sol:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$sol_btc * $btc_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

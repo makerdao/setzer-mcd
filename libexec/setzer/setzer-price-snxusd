@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+pair=snxusd
+sources=(
+  binance
+  coinbase
+  huobi
+  okex
+  sushiswap
+  uniswap
+)
+
+case $1 in
+  coinbase) {
+    setzer x-price "$1" snx:usd
+  };;
+  huobi|okex) {
+    snx_usdt=$(setzer x-price "$1" snx:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$snx_usdt * $usdt_usd")"
+  };;
+  binance) {
+    snx_btc=$(setzer x-price "$1" snx:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$snx_btc * $btc_usd")"
+  };;
+  uniswap|sushiswap) {
+    snx_eth=$(setzer x-price "$1" snx:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$snx_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

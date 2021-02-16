@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+pair=wnxmusd
+sources=(
+  balancer
+  binance
+  gateio
+  huobi
+  uniswap
+)
+
+case $1 in
+  balancer) {
+    setzer x-price "$1" wnxm:usd
+  };;
+  binance|huobi|gateio) {
+    wnxm_usdt=$(setzer x-price "$1" wnxm:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$wnxm_usdt * $usdt_usd")"
+  };;
+  uniswap) {
+    wnxm_eth=$(setzer x-price "$1" wnxm:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$wnxm_eth * $eth_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

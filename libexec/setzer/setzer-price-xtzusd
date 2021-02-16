@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+pair=xtzusd
+sources=(
+  binance
+  bitfinex
+  coinbase
+  kraken
+  hitbtc
+  okex
+)
+
+case $1 in
+  bitfinex|coinbase|hitbtc|kraken) {
+    setzer x-price "$1" xtz:usd
+  };;
+  binance|okex) {
+    xtz_usdt=$(setzer x-price "$1" xtz:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$xtz_usdt * $usdt_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

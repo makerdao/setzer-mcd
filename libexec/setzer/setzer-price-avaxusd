@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+pair=avaxusd
+sources=(
+  binance
+  bitfinex
+  gateio
+  huobi
+  okex
+)
+
+case $1 in
+  bitfinex) {
+    setzer x-price "$1" avax%3A:usd
+  };;
+  gateio|okex) {
+    avax_usdt=$(setzer x-price "$1" avax:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l<<<"$avax_usdt * $usdt_usd")"
+  };;
+  binance|huobi) {
+    avax_btc=$(setzer x-price "$1" avax:btc)
+    btc_usd=$(setzer price btcusd)
+    setzer --format "$(bc -l <<<"$avax_btc * $btc_usd")"
+  };;
+  *) {
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

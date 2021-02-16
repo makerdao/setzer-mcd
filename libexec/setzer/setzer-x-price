@@ -20,6 +20,9 @@ case $src in
       AAVEUSD) {
         id="0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
       };;
+      WNXMUSD) {
+        id="0x0d438f3b5175bebc262bf23753c1e53d03432bde"
+      };;
     esac
     json=$(curl \
       -sS \
@@ -120,6 +123,25 @@ case $src in
     json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
   };;
+  sushiswap) {
+    case "${pair^^}" in
+      SNXETH) {
+        id="0xa1d7b2d891e3a1f9ef4bbc5be20630c2feb1c470"
+        select="token1Price"
+      };;
+      CRVETH) {
+        id="0x58dc5a51fe44589beb22e8ce67720b5bc5378009"
+        select="token0Price"
+      };;
+    esac
+    json=$(curl \
+      -sS \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
+    setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
+  };;
   uniswap) {
     case "${pair^^}" in
       AAVEETH) {
@@ -130,9 +152,9 @@ case $src in
         id="0xa70d458a4d9bc0e6571565faee18a48da5c0d593"
         select="token1Price"
       };;
-      COMPETH) { 
+      COMPETH) {
         id="0xcffdded873554f362ac02f8fb1f02e5ada10516f"
-        select="token1Price" 
+        select="token1Price"
       };;
       ETHUSDC) {
         id="0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc"
@@ -158,6 +180,18 @@ case $src in
         id="0x2fdbadf3c4d5a8666bc06645b8358ab803996e28"
         select="token1Price"
       };;
+      SNXETH) {
+        id="0x43ae24960e5534731fc831386c07755a2dc33d47"
+        select="token1Price"
+      };;
+      CRVETH) {
+        id="0x3da1313ae46132a397d90d95b1424a9a7e3e0fce"
+        select="token0Price"
+      };;
+      WNXMETH) {
+        id="0x23bff8ca20aac06efdf23cee3b8ae296a30dfd27"
+        select="token1Price"
+      }
     esac
     json=$(curl \
       -sS \
