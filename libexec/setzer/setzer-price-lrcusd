@@ -2,8 +2,9 @@
 set -e
 pair=lrcusd
 sources=(
+  coinbase
   binance
-  loopring
+  gateio
   okex
   uniswap
 )
@@ -14,12 +15,15 @@ case $1 in
     btc_usd=$(setzer price btcusd)
     setzer --format "$(bc -l <<<"$lrc_btc * $btc_usd")"
   };;
+  coinbase) {
+	setzer x-price "$1" lrc:usd
+  };;
   gateio|okex) {
     lrc_usdt=$(setzer x-price "$1" lrc:usdt)
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$lrc_usdt * $usdt_usd")"
   };;
-  loopring|uniswap) {
+  uniswap) {
     lrc_eth=$(setzer x-price "$1" lrc:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$lrc_eth * $eth_usd")"
