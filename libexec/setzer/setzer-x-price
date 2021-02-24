@@ -108,13 +108,6 @@ case $src in
     json=$(curl -sS "https://api.kyber.network/change24h")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}_${base^^}" -e rate_eth_now -u)"
   };;
-  loopring) {
-    id=$(case "${pair^^}" in
-      LRCETH) { echo "LRC-ETH"; };;
-    esac)
-    json=$(curl -sS "https://api.loopring.io/api/v2/overview")
-    setzer --format "$(jshon <<<"$json" -e data -e "$id" -e last -u)"
-  };;
   okex) {
     json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e last -u)"
