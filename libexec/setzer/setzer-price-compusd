@@ -7,7 +7,7 @@ sources=(
   huobi
   kraken
   kucoin
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -19,7 +19,7 @@ case $1 in
   coinbase|kraken) {
     setzer x-price "$1" comp:usd
   };;
-  uniswap) {
+  uniswap_v3) {
     comp_eth=$(setzer x-price "$1" comp:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$comp_eth * $eth_usd")"

@@ -7,7 +7,7 @@ sources=(
   huobi
   kraken
   sushiswap
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -22,7 +22,7 @@ case $1 in
   kraken) {
     setzer x-price kraken crv:usd
   };;
-  uniswap|sushiswap) {
+  uniswap_v3|sushiswap) {
     crv_eth=$(setzer x-price "$1" crv:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$crv_eth * $eth_usd")"

@@ -7,7 +7,7 @@ sources=(
   ftx
   gemini
   huobi
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -19,7 +19,7 @@ case $1 in
   coinbase|ftx|gemini) {
     setzer x-price "$1" yfi:usd
   };;
-  uniswap) {
+  uniswap_v3) {
     yfi_eth=$(setzer x-price "$1" yfi:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$yfi_eth * $eth_usd")"
