@@ -7,7 +7,7 @@ sources=(
   ftx
   huobi
   okex
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -24,7 +24,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l <<<"$uni_usdt * $usdt_usd")"
   };;
-  uniswap) {
+  uniswap_v3) {
     uni_eth=$(setzer x-price "$1" uni:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$uni_eth * $eth_usd")"

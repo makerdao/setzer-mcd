@@ -145,14 +145,6 @@ case $src in
         id="0xa70d458a4d9bc0e6571565faee18a48da5c0d593"
         select="token1Price"
       };;
-      COMPETH) {
-        id="0xcffdded873554f362ac02f8fb1f02e5ada10516f"
-        select="token1Price"
-      };;
-      ETHUSDC) {
-        id="0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc"
-        select="token0Price"
-      };;
       KNCETH) {
         id="0xf49c43ae0faf37217bdcb00df478cf793edd6687"
         select="token0Price"
@@ -165,26 +157,10 @@ case $src in
         id="0x9c4fe5ffd9a9fc5678cfbd93aa2d4fd684b67c4c"
         select="token1Price"
       };;
-      UNIETH) {
-        id="0xd3d2e2692501a5c9ca623199d38826e513033a17"
-        select="token1Price"
-      };;
-      YFIETH) {
-        id="0x2fdbadf3c4d5a8666bc06645b8358ab803996e28"
-        select="token1Price"
-      };;
       SNXETH) {
         id="0x43ae24960e5534731fc831386c07755a2dc33d47"
         select="token1Price"
       };;
-      CRVETH) {
-        id="0x3da1313ae46132a397d90d95b1424a9a7e3e0fce"
-        select="token0Price"
-      };;
-      WNXMETH) {
-        id="0x23bff8ca20aac06efdf23cee3b8ae296a30dfd27"
-        select="token1Price"
-      }
     esac
     json=$(curl \
       -sS \
@@ -193,6 +169,41 @@ case $src in
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
       https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
+  };;
+  uniswap_v3) {
+    case "${pair^^}" in
+      COMPETH) {
+        id="0xea4ba4ce14fdd287f380b55419b1c5b6c3f22ab6"
+        select="token1Price"
+      };;
+      ETHUSDC) {
+        id="0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
+        select="token0Price"
+      };;
+      UNIETH) {
+        id="0x1d42064fc4beb5f8aaf85f4617ae8b3b5b8bd801"
+        select="token1Price"
+      };;
+      YFIETH) {
+        id="0x04916039b1f59d9745bf6e0a21f191d1e0a84287"
+        select="token1Price"
+      };;
+      CRVETH) {
+        id="0x4c83a7f819a5c37d64b4c5a2f8238ea082fa1f4e"
+        select="token0Price"
+      };;
+      WNXMETH) {
+        id="0x058d79a4c6eb5b11d0248993ffa1faa168ddd3c0"
+        select="token1Price"
+      }
+    esac
+    json=$(curl \
+      -sS \
+      -X POST \
+      -H "Content-Type: application/json" \
+      --data '{ "query": "query($id:String) { pools(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
+      https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3)
+    setzer --format "$(jshon <<<"$json" -e data -e pools -e 0 -e $select -u)"
   };;
   upbit) {
     json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")

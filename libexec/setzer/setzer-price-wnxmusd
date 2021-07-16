@@ -6,7 +6,7 @@ sources=(
   binance
   gateio
   huobi
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -18,7 +18,7 @@ case $1 in
     usdt_usd=$(setzer price usdtusd)
     setzer --format "$(bc -l<<<"$wnxm_usdt * $usdt_usd")"
   };;
-  uniswap) {
+  uniswap_v3) {
     wnxm_eth=$(setzer x-price "$1" wnxm:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$wnxm_eth * $eth_usd")"

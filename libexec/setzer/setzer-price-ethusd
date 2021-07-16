@@ -8,7 +8,7 @@ sources=(
   ftx
   gemini
   kraken
-  uniswap
+  uniswap_v3
 )
 
 case $1 in
@@ -23,7 +23,7 @@ case $1 in
   kraken) {
     setzer x-price kraken xeth:zusd
   };;
-  uniswap) {
+  uniswap_v3) {
     setzer x-price "$1" ethusdc
   };;
   *) {
