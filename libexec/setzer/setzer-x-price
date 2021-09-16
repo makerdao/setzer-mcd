@@ -32,6 +32,41 @@ case $src in
       https://api.thegraph.com/subgraphs/name/balancer-labs/balancer)
     setzer --format "$(jshon <<<"$json" -e data -e tokenPrices -e 0 -e price -u)"
   };;
+  balancer_v2) {
+    ten_to_18=$(printf '%064X' 1000000000000000000) # 10^18 left-padded to 32 bytes
+    case "${pair^^}" in
+      WSTETHETH) {
+        pool_addr=32296969ef14eb0c6d29669c550d4a0449130230 # wstETH/wETH pool, but prices expressed in stETH/ETH
+      };;
+    esac
+    # keccak256("getLatest(uint8)")
+    getLatest_method_id=b10be739
+
+    tokenprice=$(setzer \
+      --eth-call \
+      "$pool_addr" \
+      "$getLatest_method_id" \
+      "0000000000000000000000000000000000000000000000000000000000000000")  #PAIR_PRICE
+
+    case "${pair^^}" in
+      WSTETHETH) {
+        # wstETH is a non-rebasing wrapper that exposes the underlying stETH shares
+        wsteth_contract_addr=7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0
+        # keccak256("stEthPerToken()")
+        steth_per_token_method_id=035faf82
+        # how many stETH wei one would receive by unwarpping 10^18 wstETH wei
+        steth_per_wsteth=$(setzer --eth-call "$wsteth_contract_addr" "$steth_per_token_method_id")
+        # wstethEthPrice = stethPerWsteth * stethEthPrice
+        price=$(bc -l <<<"ibase=16; (${steth_per_wsteth^^} / ${ten_to_18^^} * ${tokenprice^} / ${ten_to_18^^})")
+      };;
+      *) {
+        price=$(bc -l <<<"ibase=16; ${tokenprice^^} / ${ten_to_18^^} ")
+      };;
+    esac
+    if [[ -n $price ]]; then
+      setzer --format $price
+    fi
+  };;
   binance) {
     json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e price -u)"
@@ -94,7 +129,7 @@ case $src in
         # wstETH is a non-rebasing wrapper that exposes the underlying stETH shares
         wsteth_contract_addr=7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0
         # keccak256("stEthPerToken()")
-        steth_per_token_method_id=035faf82
+        steth_per_token_method_id=035faf821
         # how many stETH wei one would receive by unwarpping 10^18 wstETH wei
         steth_per_wsteth=$(setzer --eth-call "$wsteth_contract_addr" "$steth_per_token_method_id")
         # wstethEthPrice = stethPerWsteth * stethEthPrice
@@ -104,7 +139,9 @@ case $src in
         price=$(bc -l <<<"ibase=16; ${crv_dst_amount^^} / ${crv_src_amount^^}")
       };;
     esac
-    setzer --format "$price"
+    if [[ -n $price ]]; then
+      setzer --format $price
+    fi
   };;
   ddex) {
     json=$(curl -sS "https://api.ddex.io/v4/markets/${base^^}-${quote^^}")
