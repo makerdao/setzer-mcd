@@ -129,7 +129,7 @@ case $src in
         # wstETH is a non-rebasing wrapper that exposes the underlying stETH shares
         wsteth_contract_addr=7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0
         # keccak256("stEthPerToken()")
-        steth_per_token_method_id=035faf821
+        steth_per_token_method_id=035faf82
         # how many stETH wei one would receive by unwarpping 10^18 wstETH wei
         steth_per_wsteth=$(setzer --eth-call "$wsteth_contract_addr" "$steth_per_token_method_id")
         # wstethEthPrice = stethPerWsteth * stethEthPrice
