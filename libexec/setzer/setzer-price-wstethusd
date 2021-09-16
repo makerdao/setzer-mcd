@@ -7,7 +7,7 @@ sources=(
 
 case $1 in
   curve) {
-    wsteth_eth=$(setzer x-price "$1" wsteth:eth)
+    wsteth_eth=$(setzer twap "$1" wsteth:eth)
     eth_usd=$(setzer price ethusd)
     setzer --format "$(bc -l <<<"$wsteth_eth * $eth_usd")"
   };;
