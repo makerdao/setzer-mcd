@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+: ${ETH_RPC_URL:=http://127.0.0.1:8545}
+
+hex_0x=$(curl \
+  -sS \
+  -X POST \
+  -H 'Content-Type: application/json' \
+  --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' \
+  "$ETH_RPC_URL" | jshon -e result -u)
+
+if ! [[ $hex_0x == 0x* ]]; then
+  echo >&2 "Error: invalid JSON-RPC result received: $hex_0x"
+  exit 1
+fi
+# output in an uppercase hex format, e.g. AABB
+hex=${hex_0x#0x}
+printf '%s' "${hex^^}"

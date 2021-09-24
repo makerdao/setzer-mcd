@@ -40,3 +40,14 @@ Install via make:
 * `SETZER_CACHE` - Cache directory (default: ~/.setzer)
 * `SETZER_CACHE_EXPIRY` - Cache expiry (default: 60) seconds
 * `SETZER_TIMEOUT` - HTTP request timeout (default: 10) seconds
+
+## wstETH pair requirement
+
+Due to process of pulling details from mainnet for getting price information.
+You need to set `ETH_RPC_URL` environemnt variable. By default it will point to `http://127.0.0.1:8545`.
+
+Example of usage: 
+
+```bash
+export ETH_RPC_URL="https://mainnet.infura.io/v3/fac98e56ea7e49608825dfc726fab703"
+```

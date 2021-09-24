@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+pair=wstethusd
+sources=(
+  curve
+  balancer_v2
+)
+
+case $1 in
+  curve|balancer_v2) {
+    wsteth_eth=$(setzer twap "$1" wsteth:eth)
+    eth_usd=$(setzer price ethusd)
+    setzer --format "$(bc -l <<<"$wsteth_eth * $eth_usd")"
+  };;
+  *) {
+    export SETZER_MIN_MEDIAN=2
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac
