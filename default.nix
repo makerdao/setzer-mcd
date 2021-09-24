@@ -1,5 +1,5 @@
-{ stdenv, makeWrapper, lib, fetchFromGitHub, glibcLocales
-, coreutils, curl, jshon, bc, gnused, perl, datamash, git }:
+{ stdenv, makeWrapper, lib, fetchFromGitHub, glibcLocales,
+coreutils, curl, jshon, bc, gnused, perl, datamash, git }:
 
 stdenv.mkDerivation rec {
   name = "setzer-mcd-${version}";
