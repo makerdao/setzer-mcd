@@ -51,3 +51,13 @@ Example of usage:
 ```bash
 export ETH_RPC_URL="https://mainnet.infura.io/v3/fac98e56ea7e49608825dfc726fab703"
 ```
+
+### Fx/Exchangerates API Key
+Since latest changes in Exchangerates API, now it requires API key.
+To set API Key for this exchange you can use `EXCHANGERATES_API_KEY` env variable. 
+
+Example:
+
+```bash
+$ EXCHANGERATES_API_KEY=your_api_key setzer fx krwusd
+```

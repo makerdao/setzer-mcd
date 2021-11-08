@@ -152,7 +152,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e result -e last -u)"
   };;
   fx) {
-    json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}")
+    json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}&access_key=${EXCHANGERATES_API_KEY}")
     setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
   };;
   gateio) {
