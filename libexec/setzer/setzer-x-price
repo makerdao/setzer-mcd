@@ -12,7 +12,7 @@ else
 fi
 
 # Setting up base URLs for exchanges
-ORIGIN_BALANCER_URL="${ORIGIN_BALANCER_URL:-https://api.thegraph.com}"
+ORIGIN_THEGRAPH_URL="${ORIGIN_THEGRAPH_URL:-https://api.thegraph.com}"
 ORIGIN_BINANCE_URL="${ORIGIN_BINANCE_URL:-https://www.binance.com}"
 ORIGIN_BITFINEX_URL="${ORIGIN_BITFINEX_URL:-https://api.bitfinex.com}"
 ORIGIN_BITSTAMP_URL="${ORIGIN_BITSTAMP_URL:-https://www.bitstamp.net}"
@@ -33,9 +33,6 @@ ORIGIN_KUCOIN_URL="${ORIGIN_KUCOIN_URL:-https://api.kucoin.com}"
 ORIGIN_KYBER_URL="${ORIGIN_KYBER_URL:-https://api.kyber.network}"
 ORIGIN_OKEX_URL="${ORIGIN_OKEX_URL:-https://www.okex.com}"
 ORIGIN_POLONIEX_URL="${ORIGIN_POLONIEX_URL:-https://poloniex.com}"
-ORIGIN_SUSHISWAP_URL="${ORIGIN_SUSHISWAP_URL:-https://api.thegraph.com}"
-ORIGIN_UNISWAP_URL="${ORIGIN_UNISWAP_URL:-https://api.thegraph.com}"
-ORIGIN_UNISWAP_V3_URL="${ORIGIN_UNISWAP_V3_URL:-https://api.thegraph.com}"
 ORIGIN_UPBIT_URL="${ORIGIN_UPBIT_URL:-https://api.upbit.com}"
 
 case $src in
@@ -56,7 +53,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { tokenPrices(where: { id: $id }) { symbol price poolLiquidity } }", "variables": { "id": "'"$id"'" } }' \
-      "$ORIGIN_BALANCER_URL/subgraphs/name/balancer-labs/balancer")
+      "$ORIGIN_THEGRAPH_URL/subgraphs/name/balancer-labs/balancer")
     setzer --format "$(jshon <<<"$json" -e data -e tokenPrices -e 0 -e price -u)"
   };;
   balancer_v2) {
@@ -234,7 +231,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      ${ORIGIN_SUSHISWAP_URL}/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
   };;
   uniswap) {
@@ -269,7 +266,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      ${ORIGIN_UNISWAP_URL}/subgraphs/name/uniswap/uniswap-v2)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/uniswap/uniswap-v2)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
   };;
   uniswap_v3) {
@@ -304,7 +301,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pools(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      ${ORIGIN_UNISWAP_V3_URL}/subgraphs/name/uniswap/uniswap-v3)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/uniswap/uniswap-v3)
     setzer --format "$(jshon <<<"$json" -e data -e pools -e 0 -e $select -u)"
   };;
   upbit) {
