@@ -11,6 +11,30 @@ else
   quote=${2#*:}
 fi
 
+# Setting up base URLs for exchanges
+ORIGIN_THEGRAPH_URL="${ORIGIN_THEGRAPH_URL:-https://api.thegraph.com}"
+ORIGIN_BINANCE_URL="${ORIGIN_BINANCE_URL:-https://www.binance.com}"
+ORIGIN_BITFINEX_URL="${ORIGIN_BITFINEX_URL:-https://api.bitfinex.com}"
+ORIGIN_BITSTAMP_URL="${ORIGIN_BITSTAMP_URL:-https://www.bitstamp.net}"
+ORIGIN_BITTHUMB_URL="${ORIGIN_BITTHUMB_URL:-https://global-openapi.bithumb.pro}"
+ORIGIN_BITTREX_URL="${ORIGIN_BITTREX_URL:-https://api.bittrex.com}"
+ORIGIN_CMC_URL="${ORIGIN_CMC_URL:-https://pro-api.coinmarketcap.com}"
+ORIGIN_COINBASE_URL="${ORIGIN_COINBASE_URL:-https://api.pro.coinbase.com}"
+ORIGIN_CRYPTOCOMPARE_URL="${ORIGIN_CRYPTOCOMPARE_URL:-https://min-api.cryptocompare.com}"
+ORIGIN_DDEX_URL="${ORIGIN_DDEX_URL:-https://api.ddex.io}"
+ORIGIN_FTX_URL="${ORIGIN_FTX_URL:-https://ftx.com}"
+ORIGIN_FX_URL="${ORIGIN_FX_URL:-https://api.exchangeratesapi.io}"
+ORIGIN_GATEIO_URL="${ORIGIN_GATEIO_URL:-https://fx-api.gateio.ws}"
+ORIGIN_GEMINI_URL="${ORIGIN_GEMINI_URL:-https://api.gemini.com}"
+ORIGIN_HITBTC_URL="${ORIGIN_HITBTC_URL:-https://api.hitbtc.com}"
+ORIGIN_HUOBI_URL="${ORIGIN_HUOBI_URL:-https://api.huobi.pro}"
+ORIGIN_KRAKEN_URL="${ORIGIN_KRAKEN_URL:-https://api.kraken.com}"
+ORIGIN_KUCOIN_URL="${ORIGIN_KUCOIN_URL:-https://api.kucoin.com}"
+ORIGIN_KYBER_URL="${ORIGIN_KYBER_URL:-https://api.kyber.network}"
+ORIGIN_OKEX_URL="${ORIGIN_OKEX_URL:-https://www.okex.com}"
+ORIGIN_POLONIEX_URL="${ORIGIN_POLONIEX_URL:-https://poloniex.com}"
+ORIGIN_UPBIT_URL="${ORIGIN_UPBIT_URL:-https://api.upbit.com}"
+
 case $src in
   balancer) {
     case "${pair^^}" in
@@ -29,7 +53,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { tokenPrices(where: { id: $id }) { symbol price poolLiquidity } }", "variables": { "id": "'"$id"'" } }' \
-      https://api.thegraph.com/subgraphs/name/balancer-labs/balancer)
+      "$ORIGIN_THEGRAPH_URL/subgraphs/name/balancer-labs/balancer")
     setzer --format "$(jshon <<<"$json" -e data -e tokenPrices -e 0 -e price -u)"
   };;
   balancer_v2) {
@@ -68,23 +92,23 @@ case $src in
     fi
   };;
   binance) {
-    json=$(curl -sS "https://www.binance.com/api/v3/ticker/price?symbol=${base^^}${quote^^}")
+    json=$(curl -sS "${ORIGIN_BINANCE_URL}/api/v3/ticker/price?symbol=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   bitfinex) {
-    json=$(curl -sS "https://api.bitfinex.com/v2/ticker/t${base^^}${quote^^}")
+    json=$(curl -sS "${ORIGIN_BITFINEX_URL}/v2/ticker/t${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e 6)"
   };;
   bitstamp) {
-    json=$(curl -sS "https://www.bitstamp.net/api/v2/ticker/${base,,}${quote,,}/")
+    json=$(curl -sS "${ORIGIN_BITSTAMP_URL}/api/v2/ticker/${base,,}${quote,,}/")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   bitthumb) {
-    json=$(curl -sS "https://global-openapi.bithumb.pro/openapi/v1/spot/ticker?symbol=${base^^}-${quote^^}")
+    json=$(curl -sS "${ORIGIN_BITTHUMB_URL}/openapi/v1/spot/ticker?symbol=${base^^}-${quote^^}")
     setzer --format "$(jshon <<<"$json" -e data -e 0 -e c -u)"
   };;
   bittrex) {
-    json=$(curl -sS "https://api.bittrex.com/api/v1.1/public/getticker?market=${quote^^}-${base^^}")
+    json=$(curl -sS "${ORIGIN_BITTREX_URL}/api/v1.1/public/getticker?market=${quote^^}-${base^^}")
     setzer --format "$(jshon <<<"$json" -e result -e Last -u)"
   };;
   cmc) {
@@ -92,15 +116,15 @@ case $src in
       USDTUSD) { echo "825";  };;
       POLYUSD) { echo "2496"; };;
     esac)
-    json=$(curl -sS -H "X-CMC_PRO_API_KEY:  $CMC_API_KEY" -H "Accept: application/json" -d  "id=$ticker" -G https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest)
+    json=$(curl -sS -H "X-CMC_PRO_API_KEY:  $CMC_API_KEY" -H "Accept: application/json" -d  "id=$ticker" -G ${ORIGIN_CMC_URL}/v1/cryptocurrency/quotes/latest)
     setzer --format "$(jshon <<<"$json" -e data -e "$ticker" -e quote -e USD -e price -u)"
   };;
   coinbase) {
-    json=$(curl -sS "https://api.pro.coinbase.com/products/${base^^}-${quote^^}/ticker")
+    json=$(curl -sS "${ORIGIN_COINBASE_URL}/products/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e price -u)"
   };;
   cryptocompare) {
-    json=$(curl -sS "https://min-api.cryptocompare.com/data/price?fsym=${base^^}&tsyms=${quote^^}")
+    json=$(curl -sS "${ORIGIN_CRYPTOCOMPARE_URL}/data/price?fsym=${base^^}&tsyms=${quote^^}")
     setzer --format "$(jshon <<<"$json" -e USD -u)"
   };;
   curve) {
@@ -144,51 +168,51 @@ case $src in
     fi
   };;
   ddex) {
-    json=$(curl -sS "https://api.ddex.io/v4/markets/${base^^}-${quote^^}")
+    json=$(curl -sS "${ORIGIN_DDEX_URL}/v4/markets/${base^^}-${quote^^}")
     setzer --format "$(jshon <<<"$json" -e data -e market -e lastPrice -u)"
   };;
   ftx) {
-    json=$(curl -sS "https://ftx.com/api/markets/${base^^}/${quote^^}")
+    json=$(curl -sS "${ORIGIN_FTX_URL}/api/markets/${base^^}/${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e last -u)"
   };;
   fx) {
-    json=$(curl -sS "https://api.exchangeratesapi.io/latest?base=${base^^}&access_key=${EXCHANGERATES_API_KEY}")
+    json=$(curl -sS "${ORIGIN_FX_URL}/latest?base=${base^^}&access_key=${EXCHANGERATES_API_KEY}")
     setzer --format "$(jshon <<<"$json" -e rates -e "${quote^^}" -u)"
   };;
   gateio) {
-    json=$(curl -sS "https://fx-api.gateio.ws/api/v4/spot/tickers?currency_pair=${base^^}_${quote^^}")
+    json=$(curl -sS "${ORIGIN_GATEIO_URL}/api/v4/spot/tickers?currency_pair=${base^^}_${quote^^}")
     setzer --format "$(jshon <<<"$json" -e 0 -e last -u)"
   };;
   gemini) {
-    json=$(curl -sS "https://api.gemini.com/v1/pubticker/${base,,}${quote,,}")
+    json=$(curl -sS "${ORIGIN_GEMINI_URL}/v1/pubticker/${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   hitbtc) {
-    json=$(curl -sS "https://api.hitbtc.com/api/2/public/ticker/${base^^}${quote^^}/")
+    json=$(curl -sS "${ORIGIN_HITBTC_URL}/api/2/public/ticker/${base^^}${quote^^}/")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   huobi) {
-    json=$(curl -sS "https://api.huobi.pro/market/detail/merged?symbol=${base,,}${quote,,}")
+    json=$(curl -sS "${ORIGIN_HUOBI_URL}/market/detail/merged?symbol=${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e tick -e bid -e 0)"
   };;
   kraken) {
-    json=$(curl -sS "https://api.kraken.com/0/public/Ticker?pair=${base^^}${quote^^}")
+    json=$(curl -sS "${ORIGIN_KRAKEN_URL}/0/public/Ticker?pair=${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e result -e "${base^^}${quote^^}" -e c -e 0 -u)"
   };;
   kucoin) {
-    json=$(curl -sS "https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=${base^^}-${quote^^}")
+    json=$(curl -sS "${ORIGIN_KUCOIN_URL}/api/v1/market/orderbook/level1?symbol=${base^^}-${quote^^}")
     setzer --format "$(jshon <<<"$json" -e data -e price -u)"
   };;
   kyber) {
-    json=$(curl -sS "https://api.kyber.network/change24h")
+    json=$(curl -sS "${ORIGIN_KYBER_URL}/change24h")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}_${base^^}" -e rate_eth_now -u)"
   };;
   okex) {
-    json=$(curl -sS "https://www.okex.com/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
+    json=$(curl -sS "${ORIGIN_OKEX_URL}/api/spot/v3/instruments/${base^^}-${quote^^}/ticker")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   poloniex) {
-    json=$(curl -sS "https://poloniex.com/public?command=returnTicker")
+    json=$(curl -sS "${ORIGIN_POLONIEX_URL}/public?command=returnTicker")
     setzer --format "$(jshon <<<"$json" -e "${quote^^}"_"${base^^}" -e last -u)"
   };;
   sushiswap) {
@@ -207,7 +231,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/zippoxer/sushiswap-subgraph-fork)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
   };;
   uniswap) {
@@ -242,7 +266,7 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pairs(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/uniswap/uniswap-v2)
     setzer --format "$(jshon <<<"$json" -e data -e pairs -e 0 -e $select -u)"
   };;
   uniswap_v3) {
@@ -277,11 +301,11 @@ case $src in
       -X POST \
       -H "Content-Type: application/json" \
       --data '{ "query": "query($id:String) { pools(where: { id: $id }) { token0Price token1Price } }", "variables": { "id": "'"$id"'" } }' \
-      https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3)
+      ${ORIGIN_THEGRAPH_URL}/subgraphs/name/uniswap/uniswap-v3)
     setzer --format "$(jshon <<<"$json" -e data -e pools -e 0 -e $select -u)"
   };;
   upbit) {
-    json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")
+    json=$(curl -sS "${ORIGIN_UPBIT_URL}/v1/ticker?markets=${quote^^}-${base^^}")
     setzer --format "$(jshon <<<"$json" -e 0 -e trade_price)"
   };;
   *) {
