@@ -100,7 +100,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e 6)"
   };;
   bitstamp) {
-    json=$(curl -sS "${ORIGIN_BITSTAMP_URL}/api/v2/ticker/${base,,}${quote,,}/")
+    json=$(curl -sS "${ORIGIN_BITSTAMP_URL}/api/v2/ticker/${base,,}${quote,,}")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   bitthumb) {
@@ -188,7 +188,7 @@ case $src in
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   hitbtc) {
-    json=$(curl -sS "${ORIGIN_HITBTC_URL}/api/2/public/ticker/${base^^}${quote^^}/")
+    json=$(curl -sS "${ORIGIN_HITBTC_URL}/api/2/public/ticker/${base^^}${quote^^}")
     setzer --format "$(jshon <<<"$json" -e last -u)"
   };;
   huobi) {
