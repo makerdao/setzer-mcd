@@ -16,7 +16,7 @@ type SmockerAPISuite struct {
 	url string
 }
 
-func (s *SmockerAPISuite) SetupSuite() {
+func (s *SmockerAPISuite) Setup() {
 	smockerHost, exist := os.LookupEnv("SMOCKER_HOST")
 	s.Require().True(exist, "SMOCKER_HOST env variable have to be set")
 
@@ -28,20 +28,30 @@ func (s *SmockerAPISuite) SetupSuite() {
 	s.url = fmt.Sprintf("%s:8080", smockerHost)
 }
 
-func (s *SmockerAPISuite) SetupTest() {
+func (s *SmockerAPISuite) Reset() {
 	err := s.api.Reset(context.Background())
 	s.Require().NoError(err)
 }
 
-func callSetzer(params ...string) (string, error) {
+func (s *SmockerAPISuite) SetupSuite() {
+	s.Setup()
+}
+
+func (s *SmockerAPISuite) SetupTest() {
+	s.Reset()
+}
+
+func callSetzer(params ...string) (string, string, error) {
 	cmd := exec.Command("setzer", params...)
+	cmd.Env = os.Environ()
+
 	out, err := cmd.Output()
 
 	if werr, ok := err.(*exec.ExitError); ok {
 		if s := werr.Error(); s != "0" {
-			return "", fmt.Errorf("setzer exited with exit code: %s", s)
+			return "", s, fmt.Errorf("setzer exited with exit code: %s", s)
 		}
 	}
 
-	return strings.TrimSpace(string(out)), nil
+	return strings.TrimSpace(string(out)), "0", nil
 }

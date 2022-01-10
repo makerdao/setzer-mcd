@@ -29,7 +29,7 @@ func (s *PriceETHBTCSuite) TestPrice() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 }
@@ -47,7 +47,7 @@ func (s *PriceETHBTCSuite) TestPrice4Correct2Zero() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 }
@@ -65,7 +65,7 @@ func (s *PriceETHBTCSuite) TestPrice4Correct2Invalid() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 }
@@ -83,7 +83,7 @@ func (s *PriceETHBTCSuite) TestPrice3Correct3Invalid() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("0.5000000000", out)
 }
@@ -101,7 +101,7 @@ func (s *PriceETHBTCSuite) TestPrice1Correct5Invalid() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("0.0000000000", out)
 }
@@ -119,7 +119,7 @@ func (s *PriceETHBTCSuite) TestPriceMedianCalculation() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("price", "ethbtc")
+	out, _, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("0.0000000000", out)
 }

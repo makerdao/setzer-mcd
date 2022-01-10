@@ -26,7 +26,7 @@ func (s *SetzerExchangesE2ETest) TestBalancer() {
 	err := infestor.NewMocksBuilder().Reset().Add(ex).Deploy(s.api)
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "balancer", "balusd")
+	out, _, err := callSetzer("x-price", "balancer", "balusd")
 
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
@@ -35,7 +35,7 @@ func (s *SetzerExchangesE2ETest) TestBalancer() {
 	err = infestor.NewMocksBuilder().Reset().Add(ex).Deploy(s.api)
 	s.Require().NoError(err)
 
-	out, err = callSetzer("x-price", "balancer", "balusd")
+	out, _, err = callSetzer("x-price", "balancer", "balusd")
 
 	s.Require().NoError(err)
 	s.Require().Equal("0.0000000000", out)
@@ -50,11 +50,11 @@ func (s *SetzerExchangesE2ETest) TestBinance() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "binance", "ethbtc")
+	out, _, err := callSetzer("x-price", "binance", "ethbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "binance", "aave:btc")
+	out, _, err = callSetzer("x-price", "binance", "aave:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 }
@@ -74,7 +74,7 @@ func (s *SetzerExchangesE2ETest) TestBitfinex() {
 	// s.Require().NoError(err)
 	// s.Require().Equal("1.0000000000", out)
 
-	out, err := callSetzer("x-price", "bitfinex", "mkr:eth")
+	out, _, err := callSetzer("x-price", "bitfinex", "mkr:eth")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 }
@@ -88,11 +88,11 @@ func (s *SetzerExchangesE2ETest) TestBitstamp() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "bitstamp", "ethusd")
+	out, _, err := callSetzer("x-price", "bitstamp", "ethusd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "bitstamp", "btcusd")
+	out, _, err = callSetzer("x-price", "bitstamp", "btcusd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 }
@@ -106,11 +106,11 @@ func (s *SetzerExchangesE2ETest) TestBithumb() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "bitthumb", "paxg:usdt")
+	out, _, err := callSetzer("x-price", "bitthumb", "paxg:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "bitthumb", "sol:btc")
+	out, _, err = callSetzer("x-price", "bitthumb", "sol:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 }
@@ -125,15 +125,15 @@ func (s *SetzerExchangesE2ETest) TestBittrex() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "bittrex", "batbtc")
+	out, _, err := callSetzer("x-price", "bittrex", "batbtc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "bittrex", "btcusd")
+	out, _, err = callSetzer("x-price", "bittrex", "btcusd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "bittrex", "btcgnt")
+	out, _, err = callSetzer("x-price", "bittrex", "btcgnt")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -148,15 +148,15 @@ func (s *SetzerExchangesE2ETest) TestCoinbase() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "coinbase", "bal:usd")
+	out, _, err := callSetzer("x-price", "coinbase", "bal:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "coinbase", "btcusd")
+	out, _, err = callSetzer("x-price", "coinbase", "btcusd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "coinbase", "comp:usd")
+	out, _, err = callSetzer("x-price", "coinbase", "comp:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -169,7 +169,7 @@ func (s *SetzerExchangesE2ETest) TestCryptocompare() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "cryptocompare", "poly:usd")
+	out, _, err := callSetzer("x-price", "cryptocompare", "poly:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 }
@@ -184,15 +184,15 @@ func (s *SetzerExchangesE2ETest) TestFTX() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "ftx", "ethusd")
+	out, _, err := callSetzer("x-price", "ftx", "ethusd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "ftx", "link:usd")
+	out, _, err = callSetzer("x-price", "ftx", "link:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "ftx", "matic:usd")
+	out, _, err = callSetzer("x-price", "ftx", "matic:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -207,15 +207,15 @@ func (s *SetzerExchangesE2ETest) TestGateIO() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "gateio", "avax:usdt")
+	out, _, err := callSetzer("x-price", "gateio", "avax:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "gateio", "lrc:usdt")
+	out, _, err = callSetzer("x-price", "gateio", "lrc:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "gateio", "sol:usdt")
+	out, _, err = callSetzer("x-price", "gateio", "sol:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -230,15 +230,15 @@ func (s *SetzerExchangesE2ETest) TestGemini() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "gemini", "aave:usd")
+	out, _, err := callSetzer("x-price", "gemini", "aave:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "gemini", "btcusd")
+	out, _, err = callSetzer("x-price", "gemini", "btcusd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "gemini", "matic:usd")
+	out, _, err = callSetzer("x-price", "gemini", "matic:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -253,15 +253,15 @@ func (s *SetzerExchangesE2ETest) TestHitBTC() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "hitbtc", "mkr:btc")
+	out, _, err := callSetzer("x-price", "hitbtc", "mkr:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "hitbtc", "xrp:btc")
+	out, _, err = callSetzer("x-price", "hitbtc", "xrp:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "hitbtc", "xtz:usd")
+	out, _, err = callSetzer("x-price", "hitbtc", "xtz:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -276,15 +276,15 @@ func (s *SetzerExchangesE2ETest) TestHuobi() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "huobi", "aave:usdt")
+	out, _, err := callSetzer("x-price", "huobi", "aave:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "huobi", "bal:usdt")
+	out, _, err = callSetzer("x-price", "huobi", "bal:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "huobi", "dot:usdt")
+	out, _, err = callSetzer("x-price", "huobi", "dot:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -299,15 +299,15 @@ func (s *SetzerExchangesE2ETest) TestKraken() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "kraken", "xxbt:zusd")
+	out, _, err := callSetzer("x-price", "kraken", "xxbt:zusd")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "kraken", "comp:usd")
+	out, _, err = callSetzer("x-price", "kraken", "comp:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "kraken", "dot:usd")
+	out, _, err = callSetzer("x-price", "kraken", "dot:usd")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -321,11 +321,11 @@ func (s *SetzerExchangesE2ETest) TestKukoin() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "kucoin", "comp:usdt")
+	out, _, err := callSetzer("x-price", "kucoin", "comp:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "kucoin", "dot:usdt")
+	out, _, err = callSetzer("x-price", "kucoin", "dot:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -340,15 +340,15 @@ func (s *SetzerExchangesE2ETest) TestKyber() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "kyber", "dgx:eth")
+	out, _, err := callSetzer("x-price", "kyber", "dgx:eth")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "kyber", "knc:eth")
+	out, _, err = callSetzer("x-price", "kyber", "knc:eth")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "kyber", "mkr:eth")
+	out, _, err = callSetzer("x-price", "kyber", "mkr:eth")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -363,15 +363,15 @@ func (s *SetzerExchangesE2ETest) TestOkex() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "okex", "aave:usdt")
+	out, _, err := callSetzer("x-price", "okex", "aave:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "okex", "bal:usdt")
+	out, _, err = callSetzer("x-price", "okex", "bal:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "okex", "mkr:btc")
+	out, _, err = callSetzer("x-price", "okex", "mkr:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -386,15 +386,15 @@ func (s *SetzerExchangesE2ETest) TestPoloniex() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "poloniex", "aave:usdt")
+	out, _, err := callSetzer("x-price", "poloniex", "aave:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "poloniex", "bal:usdt")
+	out, _, err = callSetzer("x-price", "poloniex", "bal:usdt")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 
-	out, err = callSetzer("x-price", "poloniex", "mkr:btc")
+	out, _, err = callSetzer("x-price", "poloniex", "mkr:btc")
 	s.Require().NoError(err)
 	s.Require().Equal("3.0000000000", out)
 }
@@ -408,11 +408,11 @@ func (s *SetzerExchangesE2ETest) TestUpbit() {
 
 	s.Require().NoError(err)
 
-	out, err := callSetzer("x-price", "upbit", "batkrw")
+	out, _, err := callSetzer("x-price", "upbit", "batkrw")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	out, err = callSetzer("x-price", "upbit", "mana:krw")
+	out, _, err = callSetzer("x-price", "upbit", "mana:krw")
 	s.Require().NoError(err)
 	s.Require().Equal("2.0000000000", out)
 }
