@@ -31,13 +31,7 @@ func (s *SetzerExchangesE2ETest) TestBalancer() {
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
-	ex = origin.
-		NewExchange("balancer").
-		WithSymbol("BAL/USD").
-		WithPrice(1).
-		WithCustom("contract", "0xba100000625a3754423978a60c9317c58a424e3d").
-		WithStatusCode(http.StatusNotFound)
-
+	ex = ex.WithStatusCode(http.StatusNotFound)
 	err = infestor.NewMocksBuilder().Reset().Add(ex).Deploy(s.api)
 	s.Require().NoError(err)
 

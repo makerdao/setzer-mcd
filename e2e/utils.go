@@ -34,9 +34,14 @@ func (s *SmockerAPISuite) SetupTest() {
 }
 
 func callSetzer(params ...string) (string, error) {
-	out, err := exec.Command("setzer", params...).Output()
-	if err != nil {
-		return "", err
+	cmd := exec.Command("setzer", params...)
+	out, err := cmd.Output()
+
+	if werr, ok := err.(*exec.ExitError); ok {
+		if s := werr.Error(); s != "0" {
+			return "", fmt.Errorf("setzer exited with exit code: %s", s)
+		}
 	}
+
 	return strings.TrimSpace(string(out)), nil
 }
