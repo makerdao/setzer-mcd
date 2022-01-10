@@ -85,10 +85,28 @@ func (s *PriceETHBTCSuite) TestPrice3Correct3Invalid() {
 
 	out, err := callSetzer("price", "ethbtc")
 	s.Require().NoError(err)
-	s.Require().Equal("1.0000000000", out)
+	s.Require().Equal("0.5000000000", out)
 }
 
 func (s *PriceETHBTCSuite) TestPrice1Correct5Invalid() {
+	err := infestor.NewMocksBuilder().
+		Reset().
+		Add(origin.NewExchange("binance").WithSymbol("ETH/BTC").WithPrice(1)).
+		Add(origin.NewExchange("bitfinex").WithSymbol("ETH/BTC").WithStatusCode(http.StatusNotFound)).
+		Add(origin.NewExchange("coinbase").WithSymbol("ETH/BTC").WithStatusCode(http.StatusNotFound)).
+		Add(origin.NewExchange("huobi").WithSymbol("ETH/BTC").WithStatusCode(http.StatusNotFound)).
+		Add(origin.NewExchange("poloniex").WithSymbol("ETH/BTC").WithStatusCode(http.StatusNotFound)).
+		Add(origin.NewExchange("kraken").WithSymbol("XETH/XXBT").WithStatusCode(http.StatusNotFound)).
+		Deploy(s.api)
+
+	s.Require().NoError(err)
+
+	out, err := callSetzer("price", "ethbtc")
+	s.Require().NoError(err)
+	s.Require().Equal("0.0000000000", out)
+}
+
+func (s *PriceETHBTCSuite) TestPriceMedianCalculation() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("binance").WithSymbol("ETH/BTC").WithPrice(1)).

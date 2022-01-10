@@ -6,6 +6,11 @@ RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
 # TMP
 ENV SMOCKER_HOST="http://smocker"
 ENV SMOCKER="${SMOCKER_HOST}:8080"
+
+# setting setzer configs
+ENV SETZER_CACHE_EXPIRY=-1 \
+    SETZER_MIN_MEDIAN=4
+
 # updating all available configs
 ENV ORIGIN_THEGRAPH_URL=$SMOCKER \
  ORIGIN_BINANCE_URL=$SMOCKER \
@@ -28,7 +33,7 @@ ENV ORIGIN_THEGRAPH_URL=$SMOCKER \
  ORIGIN_KYBER_URL=$SMOCKER \
  ORIGIN_OKEX_URL=$SMOCKER \
  ORIGIN_POLONIEX_URL=$SMOCKER \
- ORIGIN_UPBIT_URL=$SMOCKER 
+ ORIGIN_UPBIT_URL=$SMOCKER
 
 # Installing setzer
 COPY ./libexec/setzer/ /root/setzer
