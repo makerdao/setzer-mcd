@@ -3,11 +3,13 @@ package e2e
 import (
 	"context"
 	"fmt"
-	"github.com/chronicleprotocol/infestor/smocker"
-	"github.com/stretchr/testify/suite"
 	"os"
 	"os/exec"
 	"strings"
+	"syscall"
+
+	"github.com/chronicleprotocol/infestor/smocker"
+	"github.com/stretchr/testify/suite"
 )
 
 type SmockerAPISuite struct {
@@ -41,7 +43,7 @@ func (s *SmockerAPISuite) SetupTest() {
 	s.Reset()
 }
 
-func callSetzer(params ...string) (string, string, error) {
+func callSetzer(params ...string) (string, int, error) {
 	cmd := exec.Command("setzer", params...)
 	cmd.Env = os.Environ()
 
@@ -49,9 +51,12 @@ func callSetzer(params ...string) (string, string, error) {
 
 	if werr, ok := err.(*exec.ExitError); ok {
 		if s := werr.Error(); s != "0" {
-			return "", s, fmt.Errorf("setzer exited with exit code: %s", s)
+			if status, ok := werr.Sys().(syscall.WaitStatus); ok {
+				return "", status.ExitStatus(), fmt.Errorf("setzer exited with exit code: %d", status.ExitStatus())
+			}
+			return "", 1, fmt.Errorf("setzer exited with exit code: %s", s)
 		}
 	}
 
-	return strings.TrimSpace(string(out)), "0", nil
+	return strings.TrimSpace(string(out)), 0, nil
 }

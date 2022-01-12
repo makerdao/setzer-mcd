@@ -1,22 +1,22 @@
 package e2e
 
 import (
+	"testing"
+
 	"github.com/chronicleprotocol/infestor"
 	"github.com/chronicleprotocol/infestor/origin"
 	"github.com/stretchr/testify/suite"
-	"net/http"
-	"testing"
 )
 
-func TestExchangesE2ESuite(t *testing.T) {
-	suite.Run(t, new(SetzerExchangesE2ETest))
+func TestValidExchangesE2ESuite(t *testing.T) {
+	suite.Run(t, new(ValidExchangesE2ETest))
 }
 
-type SetzerExchangesE2ETest struct {
+type ValidExchangesE2ETest struct {
 	SmockerAPISuite
 }
 
-func (s *SetzerExchangesE2ETest) TestBalancer() {
+func (s *ValidExchangesE2ETest) TestBalancer() {
 	ex := origin.
 		NewExchange("balancer").
 		WithSymbol("BAL/USD").
@@ -30,18 +30,9 @@ func (s *SetzerExchangesE2ETest) TestBalancer() {
 
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
-
-	ex = ex.WithStatusCode(http.StatusNotFound)
-	err = infestor.NewMocksBuilder().Reset().Add(ex).Deploy(s.api)
-	s.Require().NoError(err)
-
-	out, _, err = callSetzer("x-price", "balancer", "balusd")
-
-	s.Require().NoError(err)
-	s.Require().Equal("0.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestBinance() {
+func (s *ValidExchangesE2ETest) TestBinance() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("binance").WithSymbol("ETH/BTC").WithPrice(1)).
@@ -59,7 +50,7 @@ func (s *SetzerExchangesE2ETest) TestBinance() {
 	s.Require().Equal("2.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestBitfinex() {
+func (s *ValidExchangesE2ETest) TestBitfinex() {
 	// NOTE: For symbols of 4 chars you have to write `SYMBOL:` otherwise API request to smocker will fail.
 	// Example: AVAX/USD should be written in mock as `AVAX:/USD`
 	err := infestor.NewMocksBuilder().
@@ -79,7 +70,7 @@ func (s *SetzerExchangesE2ETest) TestBitfinex() {
 	s.Require().Equal("2.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestBitstamp() {
+func (s *ValidExchangesE2ETest) TestBitstamp() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("bitstamp").WithSymbol("ETH/USD").WithPrice(1)).
@@ -97,7 +88,7 @@ func (s *SetzerExchangesE2ETest) TestBitstamp() {
 	s.Require().Equal("2.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestBithumb() {
+func (s *ValidExchangesE2ETest) TestBithumb() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("bitthumb").WithSymbol("PAXG/USDT").WithPrice(1)).
@@ -115,7 +106,7 @@ func (s *SetzerExchangesE2ETest) TestBithumb() {
 	s.Require().Equal("2.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestBittrex() {
+func (s *ValidExchangesE2ETest) TestBittrex() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("bittrex").WithSymbol("BAT/BTC").WithPrice(1)).
@@ -138,7 +129,7 @@ func (s *SetzerExchangesE2ETest) TestBittrex() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestCoinbase() {
+func (s *ValidExchangesE2ETest) TestCoinbase() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("coinbase").WithSymbol("BAL/USD").WithPrice(1)).
@@ -161,7 +152,7 @@ func (s *SetzerExchangesE2ETest) TestCoinbase() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestCryptocompare() {
+func (s *ValidExchangesE2ETest) TestCryptocompare() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("cryptocompare").WithSymbol("POLY/USD").WithPrice(1)).
@@ -174,7 +165,7 @@ func (s *SetzerExchangesE2ETest) TestCryptocompare() {
 	s.Require().Equal("1.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestFTX() {
+func (s *ValidExchangesE2ETest) TestFTX() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("ftx").WithSymbol("ETH/USD").WithPrice(1)).
@@ -197,7 +188,7 @@ func (s *SetzerExchangesE2ETest) TestFTX() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestGateIO() {
+func (s *ValidExchangesE2ETest) TestGateIO() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("gateio").WithSymbol("AVAX/USDT").WithPrice(1)).
@@ -220,7 +211,7 @@ func (s *SetzerExchangesE2ETest) TestGateIO() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestGemini() {
+func (s *ValidExchangesE2ETest) TestGemini() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("gemini").WithSymbol("AAVE/USD").WithPrice(1)).
@@ -243,7 +234,7 @@ func (s *SetzerExchangesE2ETest) TestGemini() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestHitBTC() {
+func (s *ValidExchangesE2ETest) TestHitBTC() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("hitbtc").WithSymbol("MKR/BTC").WithPrice(1)).
@@ -266,7 +257,7 @@ func (s *SetzerExchangesE2ETest) TestHitBTC() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestHuobi() {
+func (s *ValidExchangesE2ETest) TestHuobi() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("huobi").WithSymbol("AAVE/USDT").WithPrice(1)).
@@ -289,7 +280,7 @@ func (s *SetzerExchangesE2ETest) TestHuobi() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestKraken() {
+func (s *ValidExchangesE2ETest) TestKraken() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("kraken").WithSymbol("XXBT/ZUSD").WithPrice(1)).
@@ -312,7 +303,7 @@ func (s *SetzerExchangesE2ETest) TestKraken() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestKukoin() {
+func (s *ValidExchangesE2ETest) TestKukoin() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("kucoin").WithSymbol("COMP/USDT").WithPrice(2)).
@@ -330,7 +321,7 @@ func (s *SetzerExchangesE2ETest) TestKukoin() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestKyber() {
+func (s *ValidExchangesE2ETest) TestKyber() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("kyber").WithSymbol("DGX/ETH").WithPrice(1)).
@@ -353,7 +344,7 @@ func (s *SetzerExchangesE2ETest) TestKyber() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestOkex() {
+func (s *ValidExchangesE2ETest) TestOkex() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("okex").WithSymbol("AAVE/USDT").WithPrice(1)).
@@ -376,7 +367,7 @@ func (s *SetzerExchangesE2ETest) TestOkex() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestPoloniex() {
+func (s *ValidExchangesE2ETest) TestPoloniex() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("poloniex").WithSymbol("AAVE/USDT").WithPrice(1)).
@@ -399,7 +390,7 @@ func (s *SetzerExchangesE2ETest) TestPoloniex() {
 	s.Require().Equal("3.0000000000", out)
 }
 
-func (s *SetzerExchangesE2ETest) TestUpbit() {
+func (s *ValidExchangesE2ETest) TestUpbit() {
 	err := infestor.NewMocksBuilder().
 		Reset().
 		Add(origin.NewExchange("upbit").WithSymbol("BAT/KRW").WithPrice(1)).
