@@ -18,5 +18,6 @@ case $1 in
   *) {
     echo "Error: price argument not recognised" && echo
     setzer price --help
+    exit 1
   };;
 esac
