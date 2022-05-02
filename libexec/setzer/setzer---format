@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-printf "%.10f\n" "$1"
+_price=$1
+[[ -z $_price ]] && exit 1
+printf "%.10f\n" "$_price"

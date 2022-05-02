@@ -46,4 +46,4 @@ COPY . /app
 WORKDIR /app/e2e
 RUN go mod download
 
-CMD ["go", "test", "-v", "-parallel", "1", "-cpu", "1", "./..."]
+CMD ["go", "test", "-v", "-p", "1", "./..."]

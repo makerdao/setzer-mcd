@@ -22,11 +22,11 @@ func (s *BaseBehaviourE2ESuite) TestVersionCommand() {
 }
 
 func (s *BaseBehaviourE2ESuite) TestFormatCommand() {
-	out, _, err := callSetzer("--format")
-	s.Require().NoError(err)
-	s.Require().Equal("0.0000000000", out)
+	_, exitCode, err := callSetzer("--format")
+	s.Require().Error(err)
+	s.Require().Equal(1, exitCode)
 
-	out, _, err = callSetzer("--format", "1")
+	out, _, err := callSetzer("--format", "1")
 	s.Require().NoError(err)
 	s.Require().Equal("1.0000000000", out)
 
@@ -43,7 +43,7 @@ func (s *BaseBehaviourE2ESuite) TestFormatCommand() {
 	s.Require().Equal("1.5000000006", out)
 
 	// not number should fail
-	_, exitCode, err := callSetzer("--format", "abc")
+	_, exitCode, err = callSetzer("--format", "abc")
 	s.Require().Error(err)
 	s.Require().Equal(1, exitCode)
 }

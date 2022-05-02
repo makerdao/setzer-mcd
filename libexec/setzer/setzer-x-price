@@ -310,5 +310,6 @@ case $src in
   };;
   *) {
     echo >&2 "Error: exchange not recognised: $src"
+    exit 1
   };;
 esac

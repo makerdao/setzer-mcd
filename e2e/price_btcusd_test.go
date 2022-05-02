@@ -80,9 +80,10 @@ func (s *PriceBTCUSDE2ESuite) TestPrice3Correct2Invalid() {
 
 	s.Require().NoError(err)
 
-	out, _, err := callSetzer("price", "btcusd")
-	s.Require().NoError(err)
-	s.Require().Equal("1.0000000000", out)
+	// SETZER_MIN_MEDIAN = 4 and setzer should fail
+	_, exitCode, err := callSetzer("price", "btcusd")
+	s.Require().Error(err)
+	s.Require().Equal(1, exitCode)
 }
 
 func (s *PriceBTCUSDE2ESuite) TestPriceMedianCalculationNotEnoughMinSources() {
@@ -97,6 +98,7 @@ func (s *PriceBTCUSDE2ESuite) TestPriceMedianCalculationNotEnoughMinSources() {
 
 	s.Require().NoError(err)
 
+	// SETZER_MIN_MEDIAN = 4 and setzer should fail
 	_, exitCode, err := callSetzer("price", "btcusd")
 	s.Require().Error(err)
 	s.Require().Equal(1, exitCode)
